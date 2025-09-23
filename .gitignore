@@ -1,0 +1,41 @@
+# Arquivos auxiliares do LaTeX
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Arquivos temporários de compilações e editores
+*.nav
+*.snm
+*.vrb
+
+# Saídas temporárias do glossaries
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+
+# Arquivos de backup comuns
+*~
+*.bak
+*.tmp
+*.swp
+*.backup
+
+# Diretórios temporários (se usar latexmk, arara ou similares)
+latex.out/
+build/

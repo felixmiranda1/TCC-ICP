@@ -1,0 +1,99 @@
+\chapter{CONSTRUÇÃO DO MODELO COMPUTACIONAL}
+
+O presente capítulo descreve, de forma prática e detalhada, o processo de construção do modelo computacional proposto para identificação do \textit{Ideal Customer Profile} (ICP) no setor de benefícios corporativos. A abordagem combina técnicas de pré-processamento, detecção de outliers, medição de similaridade e ranqueamento final, estruturadas em um pipeline reproduzível e modular. A implementação foi realizada no ambiente Google Colab, utilizando a linguagem Python e bibliotecas como \texttt{scikit-learn}, \texttt{pandas} e \texttt{seaborn}. Cada etapa do fluxo foi encapsulada em funções que permitem aplicação em diferentes bases de dados, garantindo escalabilidade e adaptabilidade do método.
+
+\section{PRÉ-PROCESSAMENTO DOS DADOS}
+
+A etapa de pré-processamento foi responsável por transformar os dados brutos obtidos via \textit{scraping} em uma estrutura adequada para aplicação de algoritmos de aprendizado de máquina. Inicialmente, os nomes das colunas foram padronizados para letras minúsculas e formato \textit{snake\_case}, além da remoção de espaços, acentos e colunas irrelevantes (como CNPJ, URLs, textos descritivos e campos auxiliares).
+
+Em seguida, os dados da variável \textit{localização}, originalmente armazenados como uma string heterogênea (e.g., ``Curitiba, Paraná'', ``São Paulo, SP'', ``New York''), foram processados por meio de uma função de \textit{parsing}. Essa função normalizou acentos e capitalização, identificou tanto siglas (UFs) quanto nomes de estados brasileiros por extenso, e criou dois novos campos: cidade e estado. Após essa etapa, apenas o campo estado foi mantido como variável categórica, enquanto valores internacionais permaneceram sem UF identificada, garantindo consistência nos casos nacionais.
+
+O campo \texttt{capital\_social} passou por uma limpeza que removeu separadores de milhar e casas decimais irrelevantes, sendo convertido para tipo numérico. O mesmo procedimento foi adotado para a variável funcionários, cujos valores foram convertidos em inteiros representando a força de trabalho de cada empresa.
+
+Após essa limpeza, foram definidas duas classes principais de atributos:
+\begin{itemize}
+    \item Atributos numéricos: \texttt{capital\_social} e \texttt{funcionários};
+    \item Atributos categóricos: \texttt{segmento} e \texttt{estado}.
+\end{itemize}
+
+Para tornar os dados compatíveis com os modelos de \textit{machine learning} utilizados, aplicou-se um \texttt{ColumnTransformer} contendo:
+\begin{itemize}
+    \item um pipeline de atributos numéricos com \texttt{SimpleImputer} (mediana) e \texttt{StandardScaler};
+    \item um pipeline de atributos categóricos com \texttt{SimpleImputer} (moda) e \texttt{OneHotEncoder} (\texttt{sparse=False}).
+\end{itemize}
+
+A saída dessa etapa foi uma matriz vetorizada (\texttt{X\_processed}) e um \texttt{DataFrame} equivalente (\texttt{X\_df\_processed}) com todas as colunas expandidas e normalizadas, permitindo total transparência e reprodutibilidade nos passos subsequentes. 
+
+% TODO: inserir Tabela ou Figura do .head() do X_df_processed (Figura 5.1)
+
+\section{DETECÇÃO DE OUTLIERS COM MODELOS ONE-CLASS CLASSIFICATION}
+
+Após a vetorização dos dados, aplicaram-se técnicas de \textit{One-Class Classification} (OCC) com o objetivo de identificar e remover observações que destoam significativamente do perfil geral da base — isto é, empresas que não apresentam similaridade estrutural suficiente para serem consideradas candidatas ao ICP. Essa filtragem é fundamental para evitar que \textit{outliers} distorçam as métricas de similaridade nas etapas subsequentes do modelo.
+
+Foram empregados dois algoritmos não supervisionados clássicos para essa tarefa: o \textit{One-Class Support Vector Machine} (OC-SVM) e a \textit{Isolation Forest}. Ambos foram treinados diretamente sobre os vetores \texttt{X\_processed}, obtidos após o pré-processamento.
+
+O One-Class SVM utiliza um kernel RBF para identificar a fronteira que envolve a maioria dos dados considerados ``normais'', classificando como anomalias os pontos que se encontram fora dessa superfície. Para essa aplicação, utilizou-se um valor de $\nu = 0.05$, assumindo que até 5\% da base poderiam ser \textit{outliers}. O método foi mantido na pipeline apenas para fins comparativos e diagnósticos.
+
+Já a \textit{Isolation Forest}, modelo baseado em árvores aleatórias de partição, demonstrou maior robustez e interpretabilidade ao identificar anomalias por meio da facilidade com que uma instância pode ser isolada. Esse método também foi configurado com uma taxa de contaminação de 5\%, e sua saída foi utilizada para filtrar os dados efetivamente: apenas as empresas classificadas como \textit{inliers} (isto é, não-anômalas) foram mantidas para os próximos estágios.
+
+Ao final dessa etapa, a base vetorizada foi reduzida de acordo com as predições da \textit{Isolation Forest}. Os dados excluídos representam organizações com perfis atípicos, cuja presença poderia comprometer a construção de uma métrica de similaridade confiável. A Tabela 5.1 ilustra as estatísticas dos scores produzidos por ambos os modelos, e a Figura 5.2 mostra a distribuição dos valores.
+
+% TODO: inserir tabela de Estatísticas dos scores gerados por OC-SVM e Isolation Forest (Tabela 5.1)
+
+% TODO: inserir Figura de distribuição dos scores (Figura 5.2)
+
+A decisão de utilizar exclusivamente a \textit{Isolation Forest} para filtragem foi motivada por sua simplicidade interpretativa, maior estabilidade nas iterações e melhor alinhamento com as propriedades estatísticas da base. O resultado foi uma matriz \texttt{X\_filtrado} contendo apenas os vetores de empresas compatíveis com o perfil estrutural dominante, fornecendo uma base sólida para a análise de similaridade descrita na próxima seção.
+
+\section{CÁLCULO DE SIMILARIDADE VIA ESTRATÉGIAS DISTANCE-BASED (DBS)}
+
+Com a base de empresas ``não anômalas'' previamente filtrada pela \textit{Isolation Forest}, o modelo passa a atribuir um grau de aderência de cada empresa ao perfil ideal (ICP) por meio de técnicas baseadas em distância. Essa abordagem, denominada \textit{Distance-Based Scoring} (DBS), considera que empresas mais próximas ao ``centro'' da nuvem de dados são mais representativas do ICP, enquanto aquelas mais distantes tendem a se afastar desse padrão.
+
+Duas estratégias distintas foram adotadas para esse cálculo de similaridade:
+
+\subsection{\textbf{Distância ao Centróide}}
+
+A primeira métrica parte do pressuposto de que o perfil médio das empresas ICP pode ser representado pelo centróide vetorial — isto é, a média de todas as variáveis numéricas e categóricas vetorizadas. A distância euclidiana de cada ponto em relação a esse centróide é então interpretada como uma medida inversa de similaridade: quanto menor a distância, maior a aderência ao ICP.
+
+Matematicamente, essa distância é dada por:
+
+\begin{equation}
+d_i = \left\| x_i - \bar{x} \right\|_2
+\end{equation}
+
+Onde $x_i$ é o vetor da empresa $i$ e $\bar{x}$ é o centróide global. Para tornar o score mais interpretável, os valores foram normalizados via \texttt{MinMaxScaler} e invertidos, de forma que o score final assume valores entre 0 e 1, sendo 1 a empresa mais próxima ao centróide.
+
+\subsection{\textbf{Distância Média aos k-Vizinhos Mais Próximos (k-NN)}}
+
+A segunda métrica de similaridade foi baseada em \textit{k-Nearest Neighbors} (k-NN). Para cada empresa, calcularam-se as distâncias para seus $k = 10$ vizinhos mais próximos no espaço vetorial, desconsiderando a si mesma. A média dessas distâncias foi utilizada como score: quanto menor a média, mais densa e típica é a vizinhança da empresa no espaço ICP.
+
+Tal como no método anterior, os scores foram normalizados e invertidos para seguir a mesma lógica interpretativa: quanto maior o score, maior a probabilidade da empresa pertencer ao ICP.
+
+\subsection{\textbf{Considerações}}
+
+As duas abordagens se complementam. Enquanto a primeira captura a proximidade ao perfil médio, a segunda mede a densidade local de similaridade. Ao combiná-las, o modelo oferece uma visão mais robusta da aderência de cada organização ao padrão desejado.
+
+O uso dessas estratégias permite a criação de um ranking contínuo de empresas, de forma granular e interpretável. A próxima seção descreve como os diferentes scores — tanto de OCC quanto de DBS — foram combinados para formar o escore final de ICP.
+
+\section{RANKING FINAL}
+
+A etapa final do pipeline consiste em combinar os diferentes scores produzidos pelos modelos OCC (\textit{One-Class Classification}) e DBS (\textit{Distance-Based Scoring}) em uma métrica unificada de priorização. O objetivo é construir um ranking contínuo de empresas, ordenado pela sua similaridade ao perfil ideal de cliente (ICP).
+
+Para cada empresa mantida após a filtragem da \textit{Isolation Forest}, foram obtidos os seguintes indicadores:
+\begin{itemize}
+    \item \texttt{oc\_svm\_score} — Score de decisão do One-Class SVM;
+    \item \texttt{iso\_forest\_score} — Score de decisão da Isolation Forest;
+    \item \texttt{dbs\_centroid\_score} — Score de similaridade baseado na distância ao centróide (já normalizado e invertido);
+    \item \texttt{dbs\_knn\_score} — Score baseado na densidade local (média dos 10 vizinhos mais próximos), também normalizado e invertido.
+\end{itemize}
+
+Embora todos os quatro indicadores contenham informações relevantes, a maior confiabilidade foi atribuída aos dois últimos, por refletirem diretamente a similaridade vetorial entre empresas. Ainda assim, decidiu-se manter os scores OCC na combinação para capturar possíveis nuances de estrutura latente não linear nos dados.
+
+\subsection{\textbf{Cálculo da Média Final}}
+
+A composição do score final se deu pela média aritmética:
+
+\begin{equation}
+\text{score\_final}_i = \frac{1}{4} \left( \text{oc\_svm}_i + \text{iso\_forest}_i + \text{dbs\_centroid}_i + \text{dbs\_knn}_i \right)
+\end{equation}
+
+Este valor representa a probabilidade relativa de que uma empresa pertença ao perfil ICP, sendo que quanto mais próximo de 1, maior a similaridade com as empresas originalmente identificadas como clientes.

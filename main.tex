@@ -21,32 +21,55 @@
 \usepackage{hyperref}
 \usepackage{xurl}
 \usepackage{amssymb}
+% --- Matemática (necessário para \text, \operatorname, \lVert, etc.)
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuração do estilo para Python
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red!70!black},
+  commentstyle=\color{green!50!black}\itshape,
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  stepnumber=1,
+  numbersep=8pt,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  tabsize=4,
+  showstringspaces=false,
+  breaklines=true,
+  captionpos=b
+}
 
 %% -----------------------------------------------------------------------------
 
 %% Obs.: Alguns acentos foram omitidos.
 
-\titulo{T\'itulo} %% Colocar, dentro de chaves {}, o t\'itulo do trabalho. 
-\subtitulo{subt\'itulo}  %% Colocar % no in\'icio desta linha se nao tiver subt\'itulo 
-\autor{Autor} %%Colocar, dentro de chaves {}, o nome completo do autor
-\autorVirg{Sobrenome, Nome do autor} %%Colocar o sobrenome do autor, separado por v\'rgula, antes do restante do nome do autor. Ex.: Santos, Maria dos
+\titulo{Identificação do Ideal Customer Profile em Negócios B2B} 
+\subtitulo{Modelo Computacional Aplicado ao Setor de Benefícios Corporativos}  %% Colocar % no in\'icio desta linha se nao tiver subt\'itulo 
+\autor{Félix Oliveira Miranda} %%Colocar, dentro de chaves {}, o nome completo do autor
+\autorVirg{Miranda, Félix Oliveira} %%Colocar o sobrenome do autor, separado por v\'rgula, antes do restante do nome do autor. Ex.: Santos, Maria dos
 \local{Juiz de Fora} %%Governador Valadares % N\~ao usar MG.
-\data{Ano} %%Colocar o ano da entrega. Por exemplo, 2019. N\~ao usar m\^es.
-\orientador[Orientador:]{Nome e sobrenome} %%Se precisar, troque [Orientador:] por [Orientadora:]
-\coorientador[Coorientador:]{Nome e sobrenome} %% Colocar ``%'' no in\'icio desta linha se n\~ao tiver coorientador. Se precisar, troque por [Cooorientadora:]. 
-\orientadorTitulo{Titula\c{c}\~ao} %%Colocar, dentro de chaves {}, a titula\c{c}\~ao do(a) orientador(a). Por exemplo, Prof. Dr.
-\coorientadorTitulo{Titula\c{c}\~ao} %%Colocar, dentro de chaves {}, a titula\c{c}\~ao do(a) cooorientador(a). 
-\instituicao{Universidade Federal Juiz de Fora}
-\faculdade{Faculdade X} %%Colocar, dentro de chaves {}, o nome da faculdade ou do instituto.
-\programa{Nome do Curso ou Programa} %%Colocar, dentro de chaves {}, o nome do curso. Por exemplo: Programa de P\'os\mbox{-Gra}dua\c{c}\~ao em Matem\'atica
-\objeto{Disserta\c{c}\~ao (Mestrado)}  %%Tese (Doutorado)  %%%Trabalho de Conclus\~ao de Curso (gradua\c{c}\~ao)
-\natureza{Disserta\c{c}\~ao  %%Tese 
-apresentada ao \insereprograma ~da   %% %%%Trabalho de conclus\~ao de curso apresentado \'a \inserefaculdade da %%%%SUBSTITUIR \'a POR ao SE FOR INSTITUTO    
-Universidade Federal de Juiz de Fora como requisito parcial \`a obten\c{c}\~ao do 
-t\'itulo de Mestre em  %%Doutor em    %%%grau de bacharel em 
-Matem\'atica. %%Trocar Matem\'atica por outro, se precisar.
-\'Area de concentra\c{c}\~ao: %%PREENCHER   %%%N\~ao usar esta linha se for trabalho de conclus\~ao de curso da gradua\c{c}\~ao
-}
+\data{2025} %%Colocar o ano da entrega. Por exemplo, 2019. N\~ao usar m\^es.
+\orientador[Orientadora:]{Priscila Vanessa Zabala Capriles Golliat} %%Se precisar, troque [Orientador:] por [Orientadora:]
+%\coorientador[Coorientador:]{Nome e sobrenome} %% Colocar ``%'' no in\'icio desta linha se n\~ao tiver coorientador. Se precisar, troque por [Cooorientadora:]. 
+\orientadorTitulo{Profa. Dra.} %%Colocar, dentro de chaves {}, a titula\c{c}\~ao do(a) orientador(a). Por exemplo, Prof. Dr.
+%\coorientadorTitulo{Titula\c{c}\~ao} %%Colocar, dentro de chaves {}, a titula\c{c}\~ao do(a) cooorientador(a). 
+\instituicao{Universidade Federal de Juiz de Fora}
+\faculdade{Faculdade de Engenharia} %%Colocar, dentro de chaves {}, o nome da faculdade ou do instituto.
+\programa{Engenharia Computacional} %%Colocar, dentro de chaves {}, o nome do curso. Por exemplo: Programa de P\'os\mbox{-Gra}dua\c{c}\~ao em Matem\'atica
+\objeto{Trabalho de Conclusão de Curso (graduação)}  %%Tese (Doutorado)  %%%Trabalho de Conclus\~ao de Curso (gradua\c{c}\~ao)
+\natureza{Trabalho de conclusão de curso apresentado à \inserefaculdade~da
+Universidade Federal de Juiz de Fora como requisito parcial à obtenção do
+grau de Bacharel em Engenharia Computacional.}
 
 %% Abaixo, prencher com os dados da parte final da ficha catalografica
 \finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Sobrenome, Nome do orientador, orient. II. T\'itulo.} %% Aqui fica 
@@ -127,23 +150,22 @@ Agrade\c{c}o aos ...
 %% Resumo em Portugu\^es. OBRIGAT\'ORIO. \'E obrigat\'orio o uso de par\'agrafo \'unico.
 \begin{resumo}
 
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas NBR 6028 (2003, p.2), ``o resumo deve ressaltar 
-o objetivo, o m\'etodo, os resultados e as conclus\~oes do documento. [...] Deve ser composto de uma sequ\^encia de frases 
-concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.'' 
-O resumo deve ter de 150 a 500 palavras. \\[18pt]
-Palavras-chave: palavra-chave; palavra-chave; palavra-chave. %Separadas por ``;'' e iniciadas por letras min\'usculas.
-\end{resumo}
+  Este trabalho tem como objetivo desenvolver um modelo computacional para a identificação do Ideal Customer Profile (ICP) em negócios B2B (business-to-business), ou seja, relações comerciais estabelecidas entre empresas, com foco em fornecedores de benefícios corporativos como Unimed, Swile e TotalPass. Para isso, foi estruturada uma pipeline de aquisição e enriquecimento de dados baseada em técnicas de web scraping, consumo de APIs públicas e firmográficas, e normalização por CNPJ. A metodologia adota uma abordagem híbrida, combinando One-Class Classification (OCC), utilizada para filtrar empresas fora do perfil desejado, com Distance-Based Scoring (DBS), responsável por ranquear os leads restantes de acordo com sua similaridade com o ICP. O processo inclui ainda etapas de pré-processamento, padronização de variáveis contínuas e one-hot encoding de variáveis categóricas, resultando em uma base vetorizada adequada para a modelagem. Espera-se que os resultados obtidos contribuam para a definição de clientes ideais em ambientes B2B complexos, permitindo maior assertividade na priorização de leads, otimização de recursos de vendas e marketing, e geração de insights para estratégias comerciais, além de apontar caminhos futuros para aprimoramento metodológico, como o uso de aprendizado profundo e integração com sistemas CRM em produção.
+
+  Palavras-chave: Ideal Customer Profile; ICP; Business-to-Business; OCC; DBS.
+  
+  \end{resumo}
  
  
 %% Resumo em Ingl\^es. \'E obrigat\'orio o uso de par\'agrafo \'unico.
 \begin{resumo}[ABSTRACT]
- \begin{otherlanguage*}{english}
+  \begin{otherlanguage*}{english}
 
-Trata-se da vers\~ao do resumo em l\'ingua estrangeira para divulga\c{c}\~ao internacional. Segue as mesmas caracter\'isticas do resumo em 
-l\'ingua vern\'acula. O t\'itulo \'e atribu\'ido de acordo com o idioma escolhido (ABSTRACT, em ingl\^es; RESUMEN, em espanhol; etc.), bem como 
-as palavras-chave (Keywords, em ing\^es; Palabras-clave, em espanhol; etc.). \\[18pt]
-Keywords: keyword; keyword; keyword. %Separadas por ``;'' e iniciadas por letras min\'usculas.
- \end{otherlanguage*}
+  This work aims to develop a computational model for identifying the Ideal Customer Profile (ICP) in B2B (business-to-business) contexts, that is, commercial relationships established between companies, with a specific focus on corporate benefits providers such as Unimed, Swile, and TotalPass. A data acquisition and enrichment pipeline was designed, combining web scraping techniques, consumption of public and firmographic APIs, and normalization through the Brazilian corporate tax ID (CNPJ). The methodology adopts a hybrid approach, combining One-Class Classification (OCC), used to filter out companies outside the desired profile, with Distance-Based Scoring (DBS), responsible for ranking the remaining leads according to their similarity to the ICP. The process also includes preprocessing steps such as standardization of continuous variables and one-hot encoding of categorical variables, resulting in a vectorized dataset suitable for modeling. The expected outcome is to contribute to the definition of ideal customers in complex B2B environments, enabling greater accuracy in lead prioritization, optimization of sales and marketing resources, and generation of insights for business strategies, while also pointing to future directions such as the use of deep learning techniques and integration with production CRM systems. \\[18pt]
+
+  Keywords: Ideal Customer Profile; ICP; Business-to-Business; OCC; DBS.
+
+  \end{otherlanguage*}
 \end{resumo}
 
 %% Seguindo o mesmo modelo acima, pode-se inserir resumos em outras l\'inguas. 
@@ -200,22 +222,14 @@ Keywords: keyword; keyword; keyword. %Separadas por ``;'' e iniciadas por letras
 \textual
 
 
-\chapter{INTRODU\c{C}\~AO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
 
-Este elemento \'e obrigat\'orio. Na introdu\c{c}\~ao s\~ao descritos os objetivos da pesquisa, a raz\~ao de sua elabora\c{c}\~ao e limita\c{c}\~ao acerca da 
-tem\'atica. Neste momento, o pesquisador situa o leitor acerca do tema. Este \'e o primeiro elemento textual e a partir dele a numera\c{c}\~ao de p\'agina 
-estar\'a vis\'ivel na parte superior da p\'agina, por\'em a contagem iniciou na folha de rosto. 
+\include{capitulos/Introdução}
 
-Elaborada conforme a ABNT 10520.
+\include{capitulos/Fundamentação Teórica}
 
-\begin{citacao}
-As cita\c{c}\~oes diretas, no texto, com mais de tr\^es linhas, devem ser destacadas
-com recuo padronizado em rela\c{c}\~ao \'a margem esquerda, com letra menor que a do texto utilizado
-e sem as aspas. Recomenda-se o recuo de 4 cm. [...] Para enfatizar trechos da cita\c{c}\~ao, deve-se destac\'a-los indicando esta
-altera\c{c}\~ao com express\~ao grifo nosso entre par\^enteses, ap\'os a chamada da cita\c{c}\~ao, ou grifo 
-do autor, caso o destaque j\'a fa\c{c}a parte da obra consultada. (Associa\c{c}\~ao Brasileira de Normas
-T\'ecnicas, 2023, p. 12-13)
-\end{citacao}
+\include{capitulos/Aquisição e Tratamento dos Dados}
+
+\include{capitulos/Construção do Modelo Computacional}
 
 %As instru\c{c}\~oes aqui contidas buscam ajudar a direcionar e orientar quanto \`a padroniza\c{c}\~ao das monografias, dissertac\~oes e teses na UFJF. 
 %Ser\~ao apresentados alguns exemplos de refer\^encias apenas como modelo de documento. Detalhes completos sobre como apresentar as refer\^encias se 
@@ -223,6 +237,10 @@ T\'ecnicas, 2023, p. 12-13)
 %http://www.ufjf.br/biblioteca/servicos/normalizacao-2
 
 
+%No sistema num\'erico para cita\c{c}\~oes de refer\^encias, as refer\^encias devem ser numeradas de acordo com a ordem sequencial em que aparecem no texto 
+%pela primeira vez e colocadas em lista nesta mesma ordem. (ABNT, 2018).
+
+%O sistema num\'erico n\~ao deve ser utilizado quando h\'a notas de rodap\'e. (ABNT, 2002).  
 \chapter{NOME DA SE\c{C}\~{A}O} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
 
 Ap\'os a introdu\c{c}\~ao, segue-se o elemento desenvolvimento. Este elemento obrigat\'orio \'e que ir\'a desenvolver a ideia principal do trabalho. 
@@ -232,12 +250,6 @@ e subse\c{c}\~oes que devem conter texto.
 Apresentamos nesta p\'agina um exemplo de nota \footnote{As notas devem ser digitadas ou datilografadas dentro das margens, ficando separadas do texto
 por um espa\c{c}o simples entre as linhas e por filete de 5 cm a partir da margem esquerda e em fonte menor (um ponto) do corpo do texto. (Associa\c{c}\~ao
 Brasileira de Normas T\'ecnicas, 2011, p. 10).}.
-
-
-%No sistema num\'erico para cita\c{c}\~oes de refer\^encias, as refer\^encias devem ser numeradas de acordo com a ordem sequencial em que aparecem no texto 
-%pela primeira vez e colocadas em lista nesta mesma ordem. (ABNT, 2018).
-
-%O sistema num\'erico n\~ao deve ser utilizado quando h\'a notas de rodap\'e. (ABNT, 2002).  
 
 \section{SE\c{C}\~AO SECUND\'ARIA} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui.
 

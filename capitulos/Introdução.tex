@@ -1,0 +1,40 @@
+\chapter{INTRODUÇÃO}
+
+O ambiente corporativo contemporâneo é marcado por elevada competitividade e por ciclos de vendas cada vez mais complexos, sobretudo em negócios do tipo B2B (business-to-business), nos quais a relação comercial se estabelece entre empresas. Nesse cenário, o conceito de Ideal Customer Profile (ICP) tem se tornado uma ferramenta fundamental para empresas que buscam otimizar seus processos de vendas e marketing (PONO, 2020). O ICP oferece uma definição clara das características ideais dos clientes-alvo, permitindo que as empresas direcionem suas estratégias de forma mais eficiente (EXPERIAN, 2020). Ao identificar padrões de comportamento, necessidades específicas e características firmográficas, como setor de atuação, tamanho da empresa e tecnologias utilizadas, as organizações podem alinhar seus produtos ou serviços com os clientes que realmente se beneficiariam de suas ofertas (INFLEXION-POINT STRATEGY PARTNERS, 2020).
+
+A relevância do ICP se evidencia ao longo de todo o funil de vendas: na etapa de prospecção, permite priorizar leads com maior aderência ao perfil desejado, reduzindo o esforço desperdiçado em contatos pouco promissores; na etapa de qualificação, orienta a análise de viabilidade comercial e acelera o processo de tomada de decisão; já na etapa de conversão, aumenta a taxa de sucesso ao alinhar a proposta de valor da empresa com as necessidades reais do cliente. Além disso, um ICP bem definido impacta desdobramentos estratégicos, como o planejamento de marketing direcionado, a redução do custo de aquisição de clientes (CAC) e o aumento do valor do ciclo de vida do cliente (LTV).
+
+A relevância dessa abordagem é ainda mais evidente no contexto atual, onde a concorrência está cada vez mais acirrada e o ciclo de vendas se torna mais complexo (McKINSEY \& COMPANY, 2020). Empresas que conseguem identificar e priorizar seus potenciais clientes com maior precisão obtêm uma vantagem significativa, maximizando a taxa de conversão e minimizando os recursos desperdiçados em leads que não geram valor real (TOPO, 2020). Dessa forma, a criação de um modelo computacional que seja capaz de prever o ICP com base em dados firmográficos e contextuais pode representar uma inovação poderosa para as áreas de vendas e marketing de diversas organizações.
+
+No setor de benefícios corporativos, empresas como Unimed, Swile e TotalPass exemplificam um mercado em expansão e fortemente dependente da capacidade de selecionar clientes estratégicos. Nesse contexto, a correta definição do ICP pode representar a diferença entre ciclos comerciais longos e custosos e um processo de vendas mais eficiente, baseado em decisões orientadas por dados.
+
+\section{Objetivos}
+
+Considerando a crescente competitividade nos mercados B2B (business-to-business), em especial no setor de benefícios corporativos, e a necessidade das empresas em otimizar seus processos de prospecção e qualificação de clientes, este trabalho tem como objetivo desenvolver um modelo computacional capaz de apoiar a identificação do Ideal Customer Profile (ICP). A proposta busca integrar diferentes fontes de dados firmográficos e contextuais, explorando técnicas de aprendizado não supervisionado e de ranqueamento por similaridade, de forma a contribuir para maior assertividade na priorização de leads, redução de custos no processo comercial e suporte a estratégias de marketing orientadas por dados. 
+
+São objetivos secundários: 
+
+\begin{itemize}
+    \item Estruturar uma pipeline de aquisição e enriquecimento de dados firmográficos, integrando informações provenientes de diferentes fontes digitais;
+    \item Realizar o pré-processamento dos dados, incluindo limpeza, padronização, imputação de valores faltantes e vetorização das variáveis categóricas e contínuas;
+    \item Implementar e avaliar técnicas de One-Class Classification (OCC) para identificar empresas não aderentes ao perfil desejado;
+    \item Aplicar métricas de Distance-Based Scoring (DBS) para ranquear as empresas remanescentes de acordo com sua proximidade ao ICP;
+    \item Comparar os resultados obtidos com modelos supervisionados de referência, como regressão logística, discutindo vantagens e limitações;
+    \item Analisar o potencial de aplicação prática do modelo no setor de benefícios corporativos, destacando seus impactos em eficiência comercial e priorização de leads.
+\end{itemize}
+
+\section{Organização}
+
+Este trabalho está estruturado em seis capítulos, além dos elementos pré-textuais e pós-textuais exigidos pelas normas acadêmicas.
+
+No Capítulo 1, apresenta-se a introdução, contemplando o contexto e a motivação do estudo, a formulação do problema de pesquisa, os objetivos geral e específicos e a organização geral do documento.  
+
+O Capítulo 2 aborda os fundamentos teóricos que embasam o trabalho, incluindo o conceito de Ideal Customer Profile (ICP), sua importância no funil de vendas em negócios B2B, as principais variáveis firmográficas utilizadas nesse processo, além de uma revisão sobre técnicas de machine learning relevantes, como One-Class Classification (OCC) e Distance-Based Scoring (DBS). Também são discutidos trabalhos relacionados que exploram metodologias semelhantes no contexto de priorização de clientes.  
+
+O Capítulo 3 descreve o processo de aquisição e tratamento de dados, detalhando as estratégias de coleta utilizadas, como web scraping, consumo de APIs públicas e normalização via CNPJ, bem como os procedimentos de limpeza, enriquecimento e preparação da base final para análise.  
+
+O Capítulo 4 apresenta a construção do modelo computacional, contemplando as etapas de pré-processamento, a implementação da camada OCC para filtragem de empresas não aderentes ao ICP, a aplicação do DBS para ranqueamento e a definição do fluxo híbrido proposto.  
+
+No Capítulo 5 são discutidos os experimentos computacionais, nos quais os modelos são aplicados à base de dados construída. São apresentados os resultados da filtragem por OCC, do ranqueamento por DBS, da comparação com modelos supervisionados de referência e da análise crítica dos impactos práticos no setor de benefícios corporativos.  
+
+Por fim, o Capítulo 6 traz as conclusões e trabalhos futuros, destacando as principais contribuições alcançadas, as limitações identificadas e as perspectivas de evolução da metodologia, incluindo a possibilidade de integração com sistemas corporativos de CRM e a aplicação de técnicas mais avançadas de aprendizado de máquina.

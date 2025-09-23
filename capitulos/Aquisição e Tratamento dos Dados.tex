@@ -1,0 +1,203 @@
+\chapter{AQUISIÇÃO E TRATAMENTO DE DADOS}
+
+\section{VISÃO GERAL DA PIPELINE DE DADOS}
+
+O ponto de partida deste trabalho foi a identificação das empresas clientes de grandes fornecedoras de benefícios corporativos, como Gympass, TotalPass, Unimed e Swile. Para essa finalidade, utilizou-se a Coresignal API, que disponibiliza dados extraídos de plataformas de vagas de emprego e redes profissionais. Essa fonte foi escolhida porque, ao anunciar posições com benefícios corporativos específicos, as empresas deixam um registro público que permite inferir sua condição de cliente das corporações ofertantes. Assim, cada vaga coletada funciona como uma evidência de vínculo comercial entre a empresa contratante e a fornecedora de benefícios.
+
+Uma vez estabelecida essa identificação central, procedeu-se ao enriquecimento firmográfico dos registros, incorporando atributos descritivos que possibilitam caracterizar melhor cada organização. Nesse estágio, foram utilizadas APIs como a ReceitaWS e a BrasilAPI, que oferecem dados vinculados ao Cadastro Nacional da Pessoa Jurídica (CNPJ), incluindo razão social, porte, capital social e atividade econômica principal. Fontes auxiliares, como o Instituto Brasileiro de Geografia e Estatística (IBGE) e a tabela CONCLA, também foram integradas, permitindo padronizar os segmentos de atuação e a localização geográfica das empresas.
+
+Complementarmente, recorreu-se à coleta de dados em redes profissionais como o LinkedIn, especialmente para estimar o número de funcionários e a distribuição geográfica de determinadas organizações.
+
+Dessa forma, a pipeline de dados consolidou-se em camadas: 
+\begin{enumerate}
+    \item identificação de clientes via vagas de emprego capturadas pela Coresignal API;
+    \item enriquecimento firmográfico com dados públicos;
+    \item integração por meio do CNPJ como chave única; e
+    \item preparação da base final para análise, com normalização de atributos contínuos e codificação de atributos categóricos.
+\end{enumerate}
+
+Essa estrutura garantiu não apenas consistência e completude, mas também o caráter auditável e reprodutível da inferência sobre quais empresas são efetivamente clientes das corporações analisadas.
+
+\section{FONTES DE DADOS UTILIZADAS}
+
+\subsection{\textbf{CoreSignal API}}
+
+A Coresignal API foi a principal fonte de dados deste trabalho, responsável por identificar as empresas que mantêm vínculos comerciais com grandes fornecedoras de benefícios corporativos, como Gympass, TotalPass, Unimed, Swile e PsiViva. Essa API disponibiliza informações de redes profissionais e plataformas de emprego, permitindo a coleta estruturada de anúncios de vagas.
+
+A lógica que fundamenta o uso dessa fonte é a seguinte: quando uma empresa publica uma vaga de emprego mencionando explicitamente benefícios como Gympass, TotalPass, Unimed ou Swile, isso constitui evidência concreta de que essa organização é cliente da respectiva fornecedora. Assim, cada vaga coletada funciona como um registro auditável da relação comercial.
+
+A primeira etapa foi realizar consultas ao endpoint de busca da Coresignal, filtrando apenas vagas que:
+\begin{itemize}
+    \item mencionassem o benefício de interesse (ex.: totalpass),
+    \item fossem localizadas no Brasil,
+    \item estivessem dentro de uma janela temporal recente (últimos meses).
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={Consulta à API da Coresignal para coletar vagas}, label={lst:consulta-coresignal}]
+    payload = {
+       "query": {
+           "bool": {
+               "must": [
+                   {"match": {"description": "TotalPass"}},
+                   {"match": {"location": "Brazil"}},
+                   {"range": {"created": {"gte": "now-10M/M"}}}
+               ],
+               "must_not": must_not_filters
+           }
+       }
+    }
+    
+    # Envia a requisicao POST para buscar novos job_ids
+    response = requests.post(
+       "https://api.coresignal.com/cdapi/v2/job_base/search/es_dsl",
+       headers=headers, data=json.dumps(payload)
+    )
+    \end{lstlisting}
+
+Esse filtro garante que apenas anúncios relevantes sejam retornados, constituindo o núcleo bruto do dataset.
+
+Um ponto crítico na coleta é que uma mesma empresa pode publicar diversas vagas distintas mencionando o mesmo benefício corporativo. Se cada anúncio fosse tratado como um registro independente, o dataset apresentaria redundâncias, superestimando a presença de determinadas organizações. Para lidar com esse problema, foi implementado um mecanismo de deduplicação por empresa. Cada iteração da coleta verifica se a organização já foi registrada anteriormente; caso sim, novas vagas daquela empresa são descartadas. O controle é realizado por meio de um arquivo JSON (\texttt{empresas\_coletadas\_totalpass.json}), que armazena a lista de nomes de empresas já processadas. Assim, cada nova execução da coleta só insere empresas inéditas, garantindo que o dataset final contenha uma ocorrência por cliente.
+
+\begin{lstlisting}[language=Python, caption={Deduplicação de empresas na coleta}, label={lst:deduplicacao}]
+    # Lista de empresas ja coletadas
+    empresas_path = "/content/empresas_coletadas_totalpass.json"
+    # Dados brutos das vagas coletadas
+    coletados_path = "/content/raw_jobs_totalpass_full.json"
+    # Inicializacao do contador
+    coletados_novos = 0
+    while coletados_novos < max_to_collect:
+        # 1. Carrega as empresas ja coletadas
+        if os.path.exists(empresas_path):
+            with open(empresas_path, "r") as f:
+                empresas_coletadas = set(json.load(f))
+        else:
+            empresas_coletadas = set()
+    
+        # 2. Gera filtros de exclusao para nao repetir empresas conhecidas
+        must_not_filters = [{"match": {"company_name": nome}} 
+                            for nome in empresas_coletadas]
+        # 3. Monta a consulta de busca
+        payload = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {"match": {"description": "TotalPass"}},
+                        {"match": {"location": "Brazil"}},
+                        {"range": {"created": {"gte": "now-10M/M"}}}
+                    ],
+                    "must_not": must_not_filters
+                }
+            }
+        }
+        # Usa apenas a primeira vaga da empresa para garantir unicidade
+        job_id = job_ids[0]
+        # 4. Atualiza a lista de empresas coletadas
+        empresas_coletadas.add(company_name)
+        with open(empresas_path, "w") as f:
+            json.dump(sorted(empresas_coletadas), f, indent=2)
+    \end{lstlisting}
+
+Esse procedimento garantiu que a coleta fosse incremental e não redundante:
+\begin{itemize}
+    \item Cada empresa aparece apenas uma vez no dataset, ainda que tenha publicado várias vagas.
+    \item O processo pode ser executado repetidas vezes sem risco de duplicações.
+    \item A rastreabilidade é preservada, já que a lista de empresas coletadas é persistida em arquivos auxiliares.
+\end{itemize}
+
+Após recuperar novos \texttt{job\_ids} via endpoint \texttt{cdapi/v2/job\_base/search/es\_dsl}, a aplicação realiza a coleta detalhada de cada vaga pelo endpoint \texttt{cdapi/v2/job\_base/collect/\{job\_id\}}.
+
+Nesta etapa, reforça-se quatro decisões importantes, todas implementadas no código:
+\begin{enumerate}
+    \item Deduplicação por empresa (não por vaga);
+    \item Persistência incremental (\texttt{empresas\_coletadas\_*.json} e \texttt{raw\_jobs\_*\_full.json});
+    \item Campos brutos preservados (salvamento do JSON original);
+    \item Tolerância a falhas e \textit{rate limiting}.
+\end{enumerate}
+
+Campos brutos relevantes retornados em \texttt{record} (persistidos no raw):
+\begin{itemize}
+    \item id, created, last\_updated, title, description, location,
+    \item company\_url, external\_url, linkedin\_job\_id, country,
+    \item redirected\_url, job\_industry\_collection, job\_functions\_collection.
+\end{itemize}
+
+Esses campos serão utilizados nas próximas subseções para:
+\begin{enumerate}
+    \item normalizar e padronizar nomes de empresa, local e datas;
+    \item inferir/confirmar o vínculo ``empresa $\to$ fornecedora de benefício'';
+    \item enriquecer cada CNPJ com atributos firmográficos.
+\end{enumerate}
+
+A aplicação dessa estratégia resultou nos seguintes volumes de registros:
+
+\begin{itemize}
+    \item Unimed: 339
+    \item Gympass: 324
+    \item Swile: 282
+    \item TotalPass: 352
+    \item PsiViva: 182
+\end{itemize}
+
+Esses números representam o conjunto bruto de evidências coletadas e formam a base inicial do estudo.
+
+\subsection{\textbf{ReceitaWS}}
+
+Após a identificação das empresas clientes via Coresignal (vagas que mencionam explicitamente benefícios corporativos), procedeu-se ao enriquecimento firmográfico dos registros com informações oficiais associadas ao CNPJ. Utilizaram-se duas fontes complementares: ReceitaWS como fonte primária e BrasilAPI como mecanismo de fallback e/ou complemento quando a primeira não retornava dados válidos ou estava indisponível. Essa camada adicionou variáveis centrais para a caracterização do ICP, tais como razão social/nome fantasia, porte, capital social, CNAE principal, natureza jurídica, situação cadastral e localização (UF/município).
+
+Como a Coresignal fornece o company\_name em texto livre, estabeleceu-se um fluxo de vinculação a CNPJ que combina normalização do nome (remoção de sufixos e sinais, padronização de caixa e espaços), consulta direta por CNPJ quando já conhecido e uso de mapeamentos locais “nome  CNPJ” confirmados iterativamente. Em casos ambíguos (homônimos), realizou-se validação pontual antes de consolidar o vínculo. Essa estratégia garante reprodutibilidade (mesma entrada gera o mesmo CNPJ) e auditabilidade (é possível rastrear como cada CNPJ foi atribuído).
+
+A partir das respostas das APIs, consolidaram-se os seguintes campos padronizados (independentes da fonte original):
+
+\begin{itemize}
+    \item Identificação e cadastro: \texttt{cnpj}, \texttt{razao\_social}, \texttt{nome\_fantasia}, \texttt{situacao}, \texttt{natureza\_juridica};
+    \item Estrutura e porte: \texttt{porte}, \texttt{capital\_social} (normalizado para numérico em BRL);
+    \item Atividade econômica: \texttt{cnae\_principal} (código de 7 dígitos) e \texttt{cnae\_principal\_desc};
+    \item Localização: \texttt{uf}, \texttt{municipio} (padronizado).
+\end{itemize}
+
+O processo de enriquecimento incluiu:
+\begin{enumerate}
+    \item higienização do CNPJ (apenas dígitos, 14 caracteres);
+    \item convergência de chaves entre fontes (ex.: nome  razao\_social, fantasia  nome\_fantasia);
+    \item tratamento do capital social (remoção de símbolos, padronização decimal);
+    \item padronização do CNAE (7 dígitos, descrição quando disponível);
+    \item normalização geográfica (UF em duas letras; município padronizado).
+\end{enumerate}
+
+Tais passos sustentam a consistência horizontal do dataset e reduzem ruído em etapas posteriores de modelagem (padronização, OHE, cálculo de distâncias).
+
+Para garantir rastreabilidade e permitir reprocessamentos, além do dataset tabular refinado, preservou-se o conteúdo bruto retornado pelas APIs por CNPJ (armazenamento de respostas originais). Adotaram-se checagens de qualidade (ex.: CNPJ válido, UF pertencente ao conjunto oficial, CNAE no formato esperado, capital parsável) e marcação explícita de casos “pendentes” quando algum atributo essencial não pôde ser resolvido. Esse desenho viabiliza auditoria posterior, depuração e atualização incremental sem necessidade de reconsultas desnecessárias às APIs.
+
+\subsection{\textbf{LinkedIn}}
+
+Diferentemente de abordagens genéricas de busca por nome, o enriquecimento no LinkedIn foi ancorado nos links oficiais fornecidos nos próprios anúncios de vaga coletados via Coresignal. Muitos registros trazem, além do link da vaga, o link direto para o perfil corporativo da empresa. Esse detalhe tornou a coleta consistente e confiável, pois eliminou ambiguidades comuns (homônimos, variações de grafia) e garantiu que cada extração estivesse associada ao perfil correto.
+
+O foco desta etapa foi obter o total exato de funcionários da empresa. Embora a interface pública do perfil normalmente apresente faixas (por exemplo, ``51--200''), é possível recuperar o valor preciso por meio da resposta JSON associada à página requisitada. Assim, a variável \texttt{employees\_count} foi obtida diretamente do retorno da requisição, proporcionando uma medida de escala organizacional mais informativa para as etapas de modelagem (OCC e DBS) do que as faixas textuais exibidas ao usuário.
+
+A mesma resposta JSON contém campos corporativos adicionais (quando publicados), dos quais extraímos:
+\begin{itemize}
+    \item Nome fantasia (para padronizar nomenclatura e reconciliar com a razão social obtida na ReceitaWS/BrasilAPI);
+    \item Localização institucional (cidade/UF), utilizada para consistência geográfica e eventual estratificação analítica.
+\end{itemize}
+
+Esses atributos foram tratados como complementares aos dados firmográficos e, quando presentes, serviram para cruzamento e validação com os campos correspondentes da ReceitaWS (por exemplo, conferência de UF/município e coerência entre nome fantasia e razão social).
+
+Cada empresa identificada nas vagas (4.2.1) foi enriquecida com \texttt{employees\_count} (numérico). A chave de integração permaneceu sendo o CNPJ consolidado no passo firmográfico (4.2.2), de modo que os campos vindos do LinkedIn não criam novos registros, apenas anexam informação ao registro corporativo já existente.
+
+Quando não havia link corporativo explícito no anúncio ou quando a resposta JSON não trazia os campos desejados, o registro foi marcado como ausente, sem imputações artificiais --- preservando a qualidade do dataset.
+
+O número exato de funcionários entra como variável de escala na camada OCC (ajudando a detectar outliers organizacionais) e como componente relevante do DBS (similaridade ao ``miolo'' do ICP). O nome fantasia e a localização reforçam a padronização e a confiabilidade dos vínculos estabelecidos, reduzindo ruído na vetorização e no ranqueamento.
+
+\section{LIMPEZA E PREPARAÇÃO DA BASE}
+
+Após a coleta e o enriquecimento firmográfico, foi necessário realizar uma etapa sistemática de limpeza, padronização e preparação dos dados para torná-los adequados à aplicação dos modelos de classificação. Essa etapa envolveu desde o tratamento de valores ausentes até a vetorização final das variáveis.
+
+Campos críticos, como \texttt{CNPJ} e razão social, foram tratados como obrigatórios. Registros sem essas informações mínimas foram descartados. Para variáveis numéricas (ex.: \texttt{capital\_social}, \texttt{employees\_count}), valores ausentes foram mantidos como \texttt{NaN} e tratados posteriormente via imputação ou normalização seletiva. Campos categóricos (ex.: \texttt{CNAE}, \texttt{UF}, porte) ausentes foram preenchidos com a categoria especial ``Desconhecido'', preservando a completude da matriz.
+
+O \texttt{capital\_social} foi normalizado em valores monetários numéricos (\texttt{float}), após remoção de símbolos (``R\$'') e caracteres de formatação. O número de funcionários coletado no LinkedIn foi padronizado como variável numérica exata; quando indisponível, utilizou-se a faixa categórica (quando existente) ou mantido como ausente. Todas as variáveis contínuas foram escaladas posteriormente por \textit{z-score} (média 0, desvio padrão 1) para reduzir o impacto de diferentes magnitudes nas métricas de distância.
+
+O \texttt{CNAE} principal foi representado em nível de classe, codificado por meio de \textit{one-hot encoding} (OHE), permitindo que segmentos diferentes fossem comparados em vetor. A localização geográfica (UF) também foi codificada via OHE. O porte da empresa foi transformado em variável ordinal (Micro, Pequeno, Médio, Grande), posteriormente expandida via OHE para compatibilidade com o vetor de \textit{features}.
+
+Todas as fontes foram integradas utilizando o \texttt{CNPJ} como chave única. O resultado foi uma matriz consolidada, na qual cada linha corresponde a uma empresa identificada como cliente de pelo menos uma fornecedora de benefícios corporativos, e cada coluna representa uma característica firmográfica ou derivada.
+
+Essa etapa de preparação garantiu que a base estivesse pronta para as fases seguintes de modelagem híbrida (OCC + DBS), reduzindo ruído, assegurando consistência estrutural e preservando a rastreabilidade de cada transformação aplicada.
