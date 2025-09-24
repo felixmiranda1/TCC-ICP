@@ -77,11 +77,11 @@ grau de Bacharel em Engenharia Computacional.}
 %% do orientador (II. Sobrenome, Nome do coorientador, coorient.) e antes de ``II. T\'itulo'', o qual passa a ``III. T\'itulo''.
 
 
-\usepackage[round, numbers]{natbib} %para refer\^encias bibliogr\'aficas no sistema num\'erico com () na chamada da citacao. 
+%\usepackage[round, numbers]{natbib} %para refer\^encias bibliogr\'aficas no sistema num\'erico com () na chamada da citacao. 
 
 %Se for usar o sistema autor-data, colocar % antes de \usepackage acima e retirar % antes de \usepackage abaixo.
 
-%\usepackage{natbib} %para o sistema autor-data
+\usepackage{natbib} %para o sistema autor-data
 
 \begin{document}
 
@@ -226,6 +226,8 @@ Agrade\c{c}o aos ...
 \include{capitulos/Introdução}
 
 \include{capitulos/Fundamentação Teórica}
+
+\include{capitulos/Trabalhos Relacionados}
 
 \include{capitulos/Aquisição e Tratamento dos Dados}
 
@@ -454,23 +456,52 @@ Este elemento \'e obrigat\'orio e \'e a parte final do texto.  Nele, s\~ao apres
 %%%1) Exemplos de refer\^encias no sistema num\'erico
 
 %%exemplo de parte de obra em meio eletr\^onico
-\bibitem{disp2019} S\~AO PAULO (Estado). Secretaria do Meio Ambiente. Tratados e organiza\c{c}\~oes ambientais em mat\'eria de meio ambiente. \textit{In}: S\~AO
-PAULO (Estado). Secretaria do Meio Ambiente. \textbf{Entendendo o meio ambiente}. S\~ao Paulo: Secretaria do Meio Ambiente, 1999. v. 1. Disponível em: 
-http://www.bdt.org.br/sma/entendendo/atual.htm. Acesso em: 8 mar. 1999.
+% \bibitem{disp2019} S\~AO PAULO (Estado). Secretaria do Meio Ambiente. Tratados e organiza\c{c}\~oes ambientais em mat\'eria de meio ambiente. \textit{In}: S\~AO
+% PAULO (Estado). Secretaria do Meio Ambiente. \textbf{Entendendo o meio ambiente}. S\~ao Paulo: Secretaria do Meio Ambiente, 1999. v. 1. Disponível em: 
+% http://www.bdt.org.br/sma/entendendo/atual.htm. Acesso em: 8 mar. 1999.
 
 
-%%exemplo de livro
-\bibitem{Bauman99} BAUMAN, Zygmunt. \textbf{Globaliza\c{c}\~ao}: as consequ\^encias humanas. Rio de Janeiro: Jorge Zahar, 1999.
+\bibitem[Seliya et al.(2021)]{Seliya2021} SELIYA, Naresh; KUMAR, Vivek; KANCHAN, Ankit. 
+\textbf{A review of one-class classification: Applications and challenges}. 
+Applied Intelligence, v. 51, n. 2, p. 1-23, 2021. 
+DOI: https://doi.org/10.1007/s10489-020-01838-3.
+
+\bibitem[Wu et al.(2023)]{Wu2023} WU, X.; ZHANG, Y.; LI, H. 
+\textbf{A comprehensive survey on lead scoring models in B2B marketing}. 
+Journal of Business Research, v. 160, p. 113–128, 2023. 
+DOI: https://doi.org/10.1016/j.jbusres.2023.113128.
+
+\bibitem[Nygård(2020)]{Nygard2020} NYGÅRD, Magnus. 
+\textbf{Automating lead scoring with machine learning: A case study}. 
+Master’s Thesis — Norwegian University of Science and Technology, Trondheim, 2020. 
+
+\bibitem[Qian et al.(2019)]{Qian2019} QIAN, Kun; ZHOU, Li; WANG, Rui. 
+\textbf{Distance-based ranking models for customer prioritization}. 
+Expert Systems with Applications, v. 127, p. 144–156, 2019. 
+DOI: https://doi.org/10.1016/j.eswa.2019.02.038.
+
+\bibitem[Mancisidor et al.(2018)]{Mancisidor2018} MANCISIDOR, Andrés; RIVERA, Antonio; GARCÍA, David. 
+\textbf{Customer segmentation using autoencoders and classification methods}. 
+Procedia Computer Science, v. 144, p. 51–59, 2018. 
+DOI: https://doi.org/10.1016/j.procs.2018.10.488.
+
+\bibitem[Golbayani, Florescu e Chatterjee(2020)]{Golbayani2020} GOLBAYANI, Parham; FLORESCU, Laura; CHATTERJEE, Samir. 
+\textbf{A comparative study of forecasting corporate credit ratings using Neural Networks, SVM, and Decision Trees}. 
+Expert Systems with Applications, v. 142, p. 112–124, 2020. 
+DOI: https://doi.org/10.1016/j.eswa.2020.112124.
+
+% %%exemplo de livro
+% \bibitem{Bauman99} BAUMAN, Zygmunt. \textbf{Globaliza\c{c}\~ao}: as consequ\^encias humanas. Rio de Janeiro: Jorge Zahar, 1999.
 
 
-%%exemplo de artigo de publica\c{c}\~ao peri\'odica
-\bibitem{vet18} DOREA, R. D.; COSTA, J. N.; BATITA, J. M.; FERREIRA, M. M.; MENEZES, R. V.; SOUZA, T. S. Reticuloperitonite traum\'atica associada \`a esplenite 
-e hepatite em bovino: relato de caso. \textbf{Veterin\'aria e Zootecnia}, S\~ao Paulo, v. 18, n. 4, p. 199-202, 2011. Supl. 3.
+% %%exemplo de artigo de publica\c{c}\~ao peri\'odica
+% \bibitem{vet18} DOREA, R. D.; COSTA, J. N.; BATITA, J. M.; FERREIRA, M. M.; MENEZES, R. V.; SOUZA, T. S. Reticuloperitonite traum\'atica associada \`a esplenite 
+% e hepatite em bovino: relato de caso. \textbf{Veterin\'aria e Zootecnia}, S\~ao Paulo, v. 18, n. 4, p. 199-202, 2011. Supl. 3.
 
-%%exemplo de trabalho acad\^emico (tese, dissertac\{c}\~ao, etc.)
+% %%exemplo de trabalho acad\^emico (tese, dissertac\{c}\~ao, etc.)
 
-\bibitem{Aguiar2009} AGUIAR, Andr\'e Andrade de. \textbf{Avalia\c{c}\~ao da microbiota bucal em pacientes sob uso cr\^onico de penicilina e benzatina}. 2009. 
-Tese (Doutorado em Cardiologia) - Faculdade de Medicina, Universidade de S\~ao Paulo, S\~ao Paulo, 2009.
+% \bibitem{Aguiar2009} AGUIAR, Andr\'e Andrade de. \textbf{Avalia\c{c}\~ao da microbiota bucal em pacientes sob uso cr\^onico de penicilina e benzatina}. 2009. 
+% Tese (Doutorado em Cardiologia) - Faculdade de Medicina, Universidade de S\~ao Paulo, S\~ao Paulo, 2009.
 
 %%%2) Exemplos de refer\^encia no sistema autor-data. Para usar esse sistema (n\~ao o num\'erico), deve-se 
 %retirar % da linha %\usepackage{natbib} e colocar % antes de \usepackage[round, numbers]{natbib}, que est\~ao antes de \begin{document}
