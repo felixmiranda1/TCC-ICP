@@ -108,11 +108,51 @@ Unimed & 338 & 17 & 5,0\% & 0,0124 & [-0,0151 ; 0,0243] \\
 \end{tabular}
 \end{table}
 
+
 Os resultados demonstram consistência no comportamento do modelo, com proporções similares de anomalias nas cinco bases. Essa estabilidade reforça a adequação do \textit{Isolation Forest} como ferramenta de filtragem prévia para a metodologia proposta.
 
 A Figura~\ref{fig:7_3_occ_dist} (a ser inserida) ilustrará a distribuição dos scores de anomalia para todas as bases, evidenciando que a maior parte das empresas apresenta valores próximos à faixa neutra (entre 0,01 e 0,03), indicando alinhamento ao perfil ICP.
 
-% Inserir Figura 7.3 — Distribuição dos scores do Isolation Forest (comparativa)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/gympass_iso_forest.png}
+    \caption{Distribuição dos Scores de Decisão do modelo Isolation Forest — Gympass.}
+    \label{fig:gympass_iso_forest}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/psiviva_iso_forest.png}
+    \caption{Distribuição dos Scores de Decisão do modelo Isolation Forest — Psicologia Viva.}
+    \label{fig:psiviva_iso_forest}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/swile_iso_forest.png}
+    \caption{Distribuição dos Scores de Decisão do modelo Isolation Forest — Swile.}
+    \label{fig:swile_iso_forest}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/totalpass_iso_forest.png}
+    \caption{Distribuição dos Scores de Decisão do modelo Isolation Forest — TotalPass.}
+    \label{fig:totalpass_iso_forest}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/unimed_iso_forest.png}
+    \caption{Distribuição dos Scores de Decisão do modelo Isolation Forest — Unimed.}
+    \label{fig:unimed_iso_forest}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
 % Inserir Boxplot 7.4 — Comparação da proporção de outliers entre bases
 
 Em síntese, o filtro OCC apresentou comportamento estável e seletivo, com percentual de anomalias próximo a 5\% em todas as amostras. Essa constância confirma a robustez do método e sua aplicabilidade transversal entre diferentes provedores de benefícios corporativos.
@@ -150,6 +190,7 @@ A Figura~\ref{fig:7_5_dbs_dist} (a ser inserida) apresentará a distribuição c
 
 O score centróide, associado à similaridade global com o perfil médio, apresentou valores ligeiramente superiores ao k-NN em todas as amostras, o que sugere que o conjunto de empresas tende a formar um núcleo compacto com pequenas variações locais. Essa diferença é desejável, pois o componente k-NN atua como refinamento da análise global, capturando pequenas nuances setoriais e regionais.
 
+
 \subsection*{Visualizações de Apoio}
 
 Para fins de explicabilidade, serão incluídas as seguintes visualizações:
@@ -158,6 +199,116 @@ Para fins de explicabilidade, serão incluídas as seguintes visualizações:
     \item \textbf{Figura 7.5 — Distribuição dos scores DBS por provedor:} histogramas sobrepostos (TotalPass, Gympass, Swile, Unimed e Psicologia Viva) evidenciando a concentração de scores altos.
     \item \textbf{Figura 7.6 — Correlação entre scores centróide e k-NN:} diagrama de dispersão destacando a relação linear positiva entre as duas métricas.
 \end{itemize}
+
+\subsection{DBS por Provedor: Centróide e k-NN}
+
+\noindent
+Nesta subseção, apresentamos, para cada provedor, (i) o gráfico de distância ao centróide — que resume a similaridade global ao perfil médio de ICP — e (ii) a distribuição dos \textit{scores} via \textit{k}-NN — que refina a análise pela proximidade local no espaço vetorial.
+
+% --- GYMPASS ---
+\subsubsection*{Gympass}
+\noindent
+O centróide do Gympass indica alta coesão em torno do perfil médio (pico próximo a 1,0), enquanto a distribuição do k-NN revela leve assimetria à esquerda, sinalizando subgrupos setoriais com maior densidade.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/gympass_centroid.png}
+    \caption{DBS — Distância ao Centróide (Gympass).}
+    \label{fig:gympass_centroid}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/gympass_knn.png}
+    \caption{DBS — Distribuição de Scores k-NN (Gympass).}
+    \label{fig:gympass_knn}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+% --- PSICOLOGIA VIVA ---
+\subsubsection*{Psicologia Viva}
+% \noindent
+% Observa-se centróide concentrado em valores elevados (≥0,95), sugerindo forte alinhamento médio ao ICP; a distribuição k-NN mantém patamar alto com cauda curta, indicando baixa heterogeneidade local.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/psiviva_centroid.png}
+    \caption{DBS — Distância ao Centróide (Psicologia Viva).}
+    \label{fig:psiviva_centroid}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/psiviva_knn.png}
+    \caption{DBS — Distribuição de Scores k-NN (Psicologia Viva).}
+    \label{fig:psiviva_knn}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+% --- SWILE ---
+\subsubsection*{Swile}
+\noindent
+A distância ao centróide apresenta ligeira dispersão comparada aos demais provedores, sugerindo maior variedade firmográfica; o k-NN evidencia \textit{clusters} locais mais pronunciados, úteis para segmentação fina.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/swile_centroid.png}
+    \caption{DBS — Distância ao Centróide (Swile).}
+    \label{fig:swile_centroid}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/swile_knn.png}
+    \caption{DBS — Distribuição de Scores k-NN (Swile).}
+    \label{fig:swile_knn}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+% --- TOTALPASS ---
+\subsubsection*{TotalPass}
+\noindent
+O centróide do TotalPass permanece bem definido e com dispersão reduzida (convergência em 0,96–0,98), enquanto o k-NN confirma proximidade local consistente, com poucas observações afastadas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/totalpass_centroid.png}
+    \caption{DBS — Distância ao Centróide (TotalPass).}
+    \label{fig:totalpass_centroid}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/totalpass_knn.png}
+    \caption{DBS — Distribuição de Scores k-NN (TotalPass).}
+    \label{fig:totalpass_knn}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+% --- UNIMED ---
+\subsubsection*{Unimed}
+% \noindent
+% A Unimed apresenta centróide com valores muito altos (≈0,98), refletindo forte similaridade global; a curva k-NN reforça a homogeneidade, com densidade concentrada e cauda curta, típica de perfis institucionais.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/unimed_centroid.png}
+    \caption{DBS — Distância ao Centróide (Unimed).}
+    \label{fig:unimed_centroid}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/unimed_knn.png}
+    \caption{DBS — Distribuição de Scores k-NN (Unimed).}
+    \label{fig:unimed_knn}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
 
 Em conjunto, os resultados do DBS reforçam a robustez e estabilidade da metodologia, uma vez que os padrões observados são consistentes entre bases distintas e mantêm alta similaridade média, independentemente do tamanho ou da composição do conjunto de empresas.
 
