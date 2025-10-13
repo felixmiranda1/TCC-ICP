@@ -4,11 +4,13 @@ Neste capítulo, serão apresentados os conceitos essenciais para a compreensão
 
 \section{IDEAL CUSTOMER PROFILE (ICP) E MARKETING B2B}
 
-O conceito de Ideal Customer Profile (ICP) tem se consolidado como uma ferramenta fundamental para empresas que buscam aumentar a eficiência de suas estratégias de vendas e marketing, sobretudo em ambientes de negócios B2B (business-to-business) (PONO, 2020). O ICP pode ser entendido como a representação estruturada das características que definem o cliente ideal, ou seja, aquele que apresenta maior probabilidade de gerar valor para a organização no longo prazo. Essa definição permite que empresas direcionem seus esforços comerciais de forma mais precisa, minimizando desperdícios de recursos e ampliando a assertividade na geração de oportunidades (EXPERIAN, 2020).
-A aplicação prática do ICP se manifesta ao longo de todas as etapas do funil de vendas. Na fase de prospecção, auxilia na priorização de leads com maior aderência, reduzindo o esforço dedicado a contatos pouco promissores. Durante a qualificação, fornece critérios objetivos para avaliação da viabilidade comercial e acelera a tomada de decisão por parte da equipe de vendas. Na etapa de conversão, contribui para o aumento da taxa de fechamento ao alinhar a proposta de valor com as necessidades específicas do cliente. Finalmente, no estágio de retenção, favorece a manutenção de clientes estratégicos, ampliando o valor do ciclo de vida (LTV) e reduzindo o custo de aquisição de clientes (CAC).
-De acordo com Inflexion-Point Strategy Partners (2020), a definição de ICP envolve a análise de padrões de comportamento, necessidades do mercado e variáveis firmográficas, como setor de atuação, porte da empresa, localização geográfica e tecnologias utilizadas. Esses fatores permitem não apenas identificar os clientes mais propensos a gerar retorno, mas também excluir aqueles que, embora possam parecer atrativos em um primeiro momento, demandariam alto custo de manutenção ou não se beneficiariam plenamente da solução oferecida. McKinsey \& Company (2020) reforça que, em um cenário de competição acirrada e ciclos de vendas cada vez mais longos, a adoção de ICPs bem definidos oferece uma vantagem competitiva significativa, elevando a eficiência comercial e maximizando o retorno sobre investimento.
-Nesse sentido, TOPO (2020) argumenta que organizações que priorizam a identificação criteriosa de seus clientes-alvo conseguem não apenas aumentar suas taxas de conversão, mas também alinhar melhor suas estratégias de marketing ao perfil do mercado em que atuam. Assim, o ICP se configura como um elemento central em estratégias data-driven, sustentando decisões mais racionais e reduzindo a subjetividade no processo de vendas. No setor de benefícios corporativos, esse papel se torna ainda mais crítico, uma vez que a complexidade das negociações exige elevado alinhamento entre a proposta de valor da empresa fornecedora e as características de seus potenciais clientes.
+O Ideal Customer Profile (ICP) é definido como a representação sistemática das características do cliente que oferece maior potencial de sucesso e rentabilidade para uma organização (PONO, 2020). Trata-se de uma ferramenta amplamente empregada em estratégias de marketing e vendas B2B, permitindo direcionar recursos de forma mais eficiente e reduzir custos de aquisição (EXPERIAN, 2020).
 
+Segundo Inflexion-Point Strategy Partners (2020), a elaboração de um ICP envolve a análise de variáveis firmográficas — como setor de atuação, porte, localização e tecnologias empregadas —, além de padrões de comportamento e necessidades específicas. Essa estrutura auxilia não apenas na identificação de leads com maior probabilidade de conversão, mas também na exclusão de perfis pouco aderentes.
+
+A literatura ressalta que o ICP atua como guia ao longo de todo o funil de vendas: na prospecção, ajuda a priorizar contatos qualificados; na qualificação, oferece critérios objetivos de viabilidade; na conversão, aumenta a taxa de fechamento; e na retenção, contribui para o aumento do valor do ciclo de vida do cliente (LTV) e a redução do custo de aquisição (CAC) (McKINSEY \& COMPANY, 2020; TOPO, 2020).
+
+Em um cenário de concorrência acirrada e tomadas de decisão cada vez mais orientadas por dados, o ICP assume papel central nas estratégias data-driven, promovendo previsibilidade comercial e sustentando o alinhamento entre oferta e demanda — aspecto particularmente relevante para empresas do setor de benefícios corporativos, cujos ciclos de venda são longos e de alta complexidade.
 \section{DADOS FIRMOGRÁFICOS E FONTES DE DADOS CORPORATIVOS}
 
 Para a caracterização de empresas no contexto de definição do Ideal Customer Profile (ICP), o uso de dados firmográficos representa um dos pilares fundamentais. Analogamente aos dados demográficos, utilizados para descrever indivíduos, os dados firmográficos descrevem atributos estruturais e contextuais de organizações, permitindo sua categorização e comparação. Entre os exemplos mais comuns encontram-se o porte da empresa, o número de funcionários, o capital social, o segmento de atuação (CNAE/indústria) e a localização geográfica (EXPERIAN, 2020).
@@ -20,96 +22,93 @@ Apesar de sua importância, o uso de dados firmográficos apresenta desafios sig
 
 O presente trabalho utiliza técnicas da área de Aprendizado de Máquina (Machine Learning), um campo da Inteligência Artificial que busca desenvolver algoritmos capazes de extrair padrões a partir de dados, possibilitando a tomada de decisões ou a realização de predições sem a necessidade de regras programadas manualmente. Dentre as várias categorias existentes no Aprendizado de Máquina, os métodos adotados neste estudo pertencem à classe dos algoritmos de aprendizado não supervisionado, isto é, algoritmos que aprendem a estrutura dos dados sem contar com rótulos pré-definidos que indiquem a categoria ou o valor esperado para cada instância.
 
-Essa abordagem é especialmente adequada para o contexto deste projeto, pois a base de dados utilizada é composta por empresas que são clientes ativas de fornecedores de benefícios corporativos, como Gympass, TotalPass e Swile. No entanto, apesar de todas essas empresas fazerem parte da carteira de clientes dessas organizações, não há uma anotação explícita indicando quais delas realmente representam o perfil ideal (Ideal Customer Profile — ICP) e quais foram adquiridas de maneira eventual, fora do padrão estratégico da empresa. Por esse motivo, optou-se por técnicas capazes de identificar anomalias dentro do conjunto de dados, bem como ranquear os elementos com base em sua similaridade ao grupo principal.
+Essa abordagem é especialmente adequada para o contexto deste projeto, pois a base de dados utilizada é composta por empresas que são clientes ativas de fornecedores de benefícios corporativos, como Gympass e TotalPass. No entanto, apesar de todas essas empresas fazerem parte da carteira de clientes dessas organizações, não há uma anotação explícita indicando quais delas realmente representam o perfil ideal (Ideal Customer Profile — ICP) e quais foram adquiridas de maneira eventual, fora do padrão estratégico da empresa. Por esse motivo, optou-se por técnicas capazes de identificar anomalias dentro do conjunto de dados, bem como ranquear os elementos com base em sua similaridade ao grupo principal.
 
-A modelagem proposta combina dois grupos de algoritmos de aprendizado não supervisionado: os modelos de detecção de anomalias e os modelos baseados em distância. Os primeiros, conhecidos como One-Class Classification (OCC), são treinados apenas com exemplos considerados “normais” e aprendem uma fronteira que os separa de observações anômalas. Esses modelos são frequentemente utilizados em cenários onde apenas exemplos positivos estão disponíveis, como em detecção de fraudes, análise de falhas e perfis de clientes. Entre os métodos utilizados nesta categoria estão o One-Class SVM (Support Vector Machine) e o Isolation Forest, que será detalhado posteriormente.
+A modelagem proposta combina dois grupos de algoritmos de aprendizado não supervisionado: os modelos de detecção de anomalias e os modelos baseados em distância. Os primeiros, conhecidos como One-Class Classification (OCC), são treinados apenas com exemplos considerados “normais” e aprendem uma fronteira que os separa de observações anômalas. Esses modelos são frequentemente utilizados em cenários onde apenas exemplos positivos estão disponíveis, como em detecção de fraudes, análise de falhas e perfis de clientes. 
 
-Por sua vez, os modelos baseados em distância não constroem uma fronteira de decisão, mas avaliam o quanto cada observação se aproxima de uma referência construída com base no conjunto de dados — como o centróide, representado pela média vetorial, ou os vizinhos mais próximos, como no método k-Nearest Neighbors. Esses métodos são úteis para gerar um escore contínuo de aderência ao perfil médio observado, permitindo o ranqueamento das empresas de acordo com sua compatibilidade com o ICP.
+Por sua vez, os modelos baseados em distância não constroem uma fronteira de decisão, mas avaliam o quanto cada observação se aproxima de uma referência construída com base no conjunto de dados — como o centróide, representado pela média vetorial, ou os vizinhos mais próximos, como no método k-Nearest Neighbors. Esses métodos são úteis para gerar um score contínuo de aderência ao perfil médio observado, permitindo o ranqueamento das empresas de acordo com sua compatibilidade com o ICP.
 
-\subsection{\textbf{One-Class Classification (OCC)}}
+\subsection{One-Class Classification (OCC) e Tratamento de Outliers}
 
-O \textit{One-Class Classification} (OCC) é uma abordagem utilizada em
-problemas nos quais existe apenas uma classe de interesse, denominada
-``normal'', e o objetivo é identificar instâncias que se desviam
-significativamente desse padrão, classificando-as como anomalias ou
-outliers. No contexto do ICP, o OCC é relevante por permitir modelar
-diretamente a distribuição das empresas com características típicas do
-perfil ideal, rejeitando observações distantes dessa distribuição. De
-forma intuitiva, o OCC busca construir uma \textbf{fronteira de decisão}
-que envolva a região de maior densidade dos dados, marcando como anômalos os
-pontos que ficam fora dela.
+O \textit{One-Class Classification} (OCC) é uma abordagem utilizada em cenários
+nos quais apenas uma classe de interesse está disponível, e o objetivo é
+identificar instâncias que se desviam significativamente desse padrão
+(\textit{outliers}). Em vez de distinguir entre múltiplas categorias,
+o OCC busca modelar a distribuição dos exemplos considerados ``normais'',
+definindo uma fronteira que engloba a região de maior densidade dos dados
+e rejeita observações fora dessa região. 
 
-\subsubsection{\textit{One-Class Support Vector Machine (OC-SVM)}}
-
-O OC-SVM \cite{scholkopf2001estimating} é uma das formulações mais utilizadas
-de OCC. A ideia central é separar a origem dos dados no espaço de
-características com máxima margem. Formalmente, resolve-se o seguinte
-problema de otimização:
-
-\begin{equation}
-\min_{w,\rho,\xi} \ \frac{1}{2}\lVert w\rVert^2 \;+\; \frac{1}{\nu n}\sum_{i=1}^n \xi_i \;-\; \rho
-\end{equation}
-
-sujeito a:
-
-\begin{equation}
-(w^\top \phi(x_i)) \;\ge\; \rho \;-\; \xi_i, \quad \xi_i \ge 0, \quad i=1,\dots,n,
-\end{equation}
-
-onde $\phi(\cdot)$ é o mapeamento dos dados para o espaço de
-características induzido por um kernel. O parâmetro $\nu \in (0,1]$
-controla a fração máxima de outliers admitidos e a fração mínima de
-vetores de suporte. A função de decisão é:
-
-\begin{equation}
-f(x) = \operatorname{sign}\Big(\sum_{i=1}^n \alpha_i K(x_i,x) - \rho \Big),
-\end{equation}
-
-em que $\alpha_i$ são os multiplicadores de Lagrange e $K(\cdot,\cdot)$
-é a função kernel, como o RBF ou polinomial.
+No contexto deste trabalho, o OCC é aplicado à identificação do
+\textit{Ideal Customer Profile} (ICP), permitindo modelar diretamente a
+distribuição das empresas com características típicas do perfil ideal e
+filtrar aquelas que se afastam substancialmente desse padrão. Assume-se,
+de forma plausível, que a maior parte das empresas da base analisada
+representa clientes adequados ao ICP, enquanto uma minoria corresponde a
+casos atípicos ou menos representativos.
 
 \subsubsection{\textit{Isolation Forest (IF)}}
 
-O Isolation Forest \cite{liu2008isolation} baseia-se na ideia de que outliers
-são mais fáceis de isolar por particionamentos aleatórios. Constrói-se
-uma floresta de árvores de isolamento, nas quais cada nó divide os dados
-selecionando aleatoriamente um atributo e um ponto de corte. O número
-esperado de quebras necessárias para isolar uma instância $x$ define o
-seu \textit{comprimento de caminho} $h(x)$: instâncias normais tendem a exigir
-mais quebras, enquanto outliers são isolados rapidamente. O score de
-anomalia é dado por:
+Entre as técnicas de OCC, o \textit{Isolation Forest} destaca-se por sua
+eficiência e simplicidade conceitual. O método baseia-se na ideia de que
+instâncias anômalas são mais fáceis de isolar por meio de particionamentos
+aleatórios do espaço de atributos. Constrói-se uma floresta de árvores de
+isolamento, em que cada nó divide os dados escolhendo aleatoriamente um
+atributo e um ponto de corte. O número médio de divisões necessárias para
+isolar uma instância $x$ define seu \textit{comprimento de caminho}
+$h(x)$: observações normais tendem a exigir mais quebras, enquanto
+outliers são isolados rapidamente. O \textit{score} de anomalia é
+calculado como:
 
 \begin{equation}
-s(x,n) = 2^{-\frac{\mathbb{E}[h(x)]}{c(n)}}, \qquad
-c(n) = 2H_{n-1} - \frac{2(n-1)}{n},
+s(x, n) = 2^{-\frac{E[h(x)]}{c(n)}}, \qquad
+c(n) = 2H_{n-1} - \frac{2(n - 1)}{n},
 \end{equation}
 
-onde $H_k$ é o $k$-ésimo número harmônico e $c(n)$ normaliza o caminho
-esperado.
+onde $H_k$ é o $k$-ésimo número harmônico e $c(n)$ atua como fator de
+normalização do caminho esperado.
 
-\subsubsection{\textit{Outras variantes}}
+\subsubsection{\textit{Aplicação ao ICP e filtragem de outliers}}
 
-Além do OC-SVM e do Isolation Forest, outras técnicas incluem o
-\textit{Elliptic Envelope}, que assume distribuições aproximadamente gaussianas
-e utiliza estimadores robustos de covariância, e o \textit{Local Outlier Factor
-(LOF)}, que avalia a densidade local em relação à vizinhança \cite{chandola2009anomaly}.
+Na presente pesquisa, o \textit{Isolation Forest} foi utilizado como
+etapa preliminar de filtragem antes da aplicação do modelo
+\textit{Distance-Based Scoring} (DBS). Essa escolha se justifica pela
+natureza não supervisionada do problema: ainda que todas as empresas da
+base sejam clientes ativas de organizações como TotalPass, Gympass ou
+Swile, é razoável supor que nem todas representem o perfil ideal.
+Algumas podem ter sido adquiridas por abordagens comerciais pontuais,
+pertencer a segmentos secundários ou apresentar características
+distantes do foco estratégico atual.
 
-\subsubsection{\textit{Considerações gerais}}
+A aplicação do \textit{Isolation Forest} permitiu excluir, de forma
+estatisticamente fundamentada, essas observações discrepantes. O modelo
+foi configurado com uma taxa de contaminação de 5\%, assumindo que
+aproximadamente essa fração das empresas poderia ser considerada
+anômala. Essa parametrização segue recomendações da literatura para
+problemas de detecção de anomalias em bases de clientes B2B, onde a
+maioria das instâncias é presumidamente legítima.
 
-O OCC é particularmente útil em contextos nos quais não há rótulos
-confiáveis para todas as instâncias, mas presume-se que a maior parte
-dos dados pertença a uma classe ``normal''. No caso de ICP, isso significa
-assumir que a base de dados contém, em sua maioria, empresas
-plausivelmente dentro do perfil ideal, de modo que as técnicas OCC podem
-aprender suas características comuns e rejeitar as instâncias mais
-discrepantes.
+O procedimento foi conduzido sobre os dados já vetorizados e escalados,
+garantindo que as métricas de separabilidade considerassem o conjunto
+completo de variáveis firmográficas e contextuais. Apenas as instâncias
+marcadas como \textit{inliers} pelo \textit{Isolation Forest} foram
+mantidas para a etapa subsequente de ranqueamento via DBS, assegurando
+que as medidas de proximidade fossem calculadas sobre um subconjunto
+representativo e coerente com o padrão estatístico dominante.
+
+Essa integração entre OCC e DBS resultou em um processo mais robusto,
+capaz de combinar o rigor matemático da detecção de anomalias com a
+interpretação de negócio necessária à identificação do ICP. O filtro
+prévio de outliers reduziu o ruído, aumentou a consistência dos escores
+de proximidade e aprimorou a confiabilidade da inferência sobre o perfil
+ideal de cliente.
+
 
 
 
 \subsection{\textbf{Distance-Based Scoring (DBS)}}
 
 O \textit{Distance-Based Scoring} (DBS) é uma abordagem que consiste em
-atribuir um escore contínuo a cada instância com base em sua proximidade
+atribuir um score contínuo a cada instância com base em sua proximidade
 a um ponto de referência representativo da classe de interesse. No
 contexto de ICP, esse ponto de referência pode ser entendido como uma
 representação central das empresas consideradas clientes ideais, de modo
@@ -117,49 +116,46 @@ que organizações mais próximas a esse centro recebem escores mais altos
 de similaridade, enquanto aquelas mais distantes recebem escores mais
 baixos.
 
-\subsubsection{\textit{Métrica Euclidiana}}
+\subsubsection{\textit{Métrica Euclidiana e centróide ICP}}
 
-A distância euclidiana é a forma mais comum de mensurar proximidade em
-espaços vetoriais. Dado um vetor de atributos $x \in \mathbb{R}^d$ e um
-centro de referência $\mu \in \mathbb{R}^d$, a distância euclidiana é
-definida como:
-
+Seja $X_{\text{in}}=\{x_i\}_{i=1}^{n}$ o conjunto de vetores de atributos dos
+\textit{inliers}. O centróide ICP é definido como a média aritmética:
 \begin{equation}
-d_{E}(x, \mu) = \sqrt{\sum_{j=1}^{d} (x_j - \mu_j)^2}.
+\mu \;=\; \frac{1}{n}\sum_{i=1}^{n} x_i\, .
 \end{equation}
 
-Escores de proximidade podem ser calculados de forma inversa à
-distância, permitindo interpretar empresas mais próximas ao centro como
-mais aderentes ao ICP.
-
-\subsubsection{\textit{Similaridade do Cosseno}}
-
-Outra medida amplamente utilizada é a similaridade do cosseno,
-especialmente adequada para dados de alta dimensionalidade e
-representações esparsas. Para dois vetores $x$ e $\mu$, define-se:
-
+A proximidade de uma empresa $x$ ao perfil ideal é medida pela distância
+euclidiana ao centróide:
 \begin{equation}
-\text{sim}_{\cos}(x,\mu) = \frac{x \cdot \mu}{\lVert x \rVert \, \lVert \mu \rVert}.
+d_E(x,\mu)\;=\;\sqrt{\sum_{j=1}^{d}(x_j-\mu_j)^2}\, .
 \end{equation}
 
-Essa métrica avalia o ângulo entre os vetores, retornando valores
-próximos de 1 quando os vetores estão fortemente alinhados, mesmo que
-suas magnitudes sejam diferentes. No caso de ICP, empresas com perfis de
-atributos similares em direção, ainda que em escalas distintas, podem
-ser consideradas próximas.
-
-\subsubsection{\textit{Método dos $k$-vizinhos mais próximos (k-NN)}}
-
-O ranqueamento também pode ser construído a partir do cálculo das
-distâncias de cada empresa para seus $k$ vizinhos mais próximos dentro
-do conjunto ICP. Define-se o escore médio como:
-
+Para interpretar proximidade como \textit{score} (maior é melhor),
+normalizou-se as distâncias com \textit{Min–Max} ao intervalo $[0,1]$ e
+invertêmo-las:
 \begin{equation}
-s_{kNN}(x) = \frac{1}{k} \sum_{i=1}^{k} d(x, x_i),
+s_{\text{cent}}(x)\;=\;1-\frac{d_E(x,\mu)-\min\limits_{z\in X_{\text{in}}} d_E(z,\mu)}
+{\max\limits_{z\in X_{\text{in}}} d_E(z,\mu)-\min\limits_{z\in X_{\text{in}}} d_E(z,\mu)}\, .
 \end{equation}
 
-em que $x_i$ são os vizinhos mais próximos de $x$. Quanto menor o
-escore, maior a proximidade do ponto ao conjunto ICP.
+
+\subsubsection{\textit{Proximidade local por $k$-vizinhos (entre inliers)}}
+
+Complementarmente, avaliamos a densidade local com $k$-vizinhos mais
+próximos (\textit{k-NN}) \emph{no conjunto de inliers}, usando distância
+euclidiana (padrão do \texttt{NearestNeighbors}, Minkowski $p{=}2$). Para cada
+$x\in X_{\text{in}}$, computa-se a distância média aos $k$ vizinhos (excluindo
+o próprio ponto):
+\begin{equation}
+\bar{d}_{k}(x)\;=\;\frac{1}{k}\sum_{i=1}^{k} d_E\!\big(x,x_{(i)}\big)\, ,
+\end{equation}
+em que $x_{(i)}$ denota o $i$-ésimo vizinho mais próximo de $x$ em
+$X_{\text{in}}$. O respectivo \textit{score} é obtido por normalização
+\textit{Min–Max} e inversão:
+\begin{equation}
+s_{k\text{NN}}(x)\;=\;1-\frac{\bar{d}_{k}(x)-\min\limits_{z\in X_{\text{in}}} \bar{d}_{k}(z)}
+{\max\limits_{z\in X_{\text{in}}} \bar{d}_{k}(z)-\min\limits_{z\in X_{\text{in}}} \bar{d}_{k}(z)}\, .
+\end{equation}
 
 \subsubsection{\textit{Considerações gerais}}
 
@@ -183,7 +179,7 @@ de ICP, nos quais há escassez de rótulos explícitos e alta
 heterogeneidade dos dados disponíveis. A abordagem híbrida consiste em
 aplicar o OCC como uma etapa inicial de filtragem, removendo instâncias
 com baixa probabilidade de pertencerem ao perfil ideal, seguido pelo
-DBS, responsável por atribuir um escore contínuo de similaridade às
+DBS, responsável por atribuir um score contínuo de similaridade às
 instâncias remanescentes.
 
 \subsubsection{\textit{Estrutura do fluxo híbrido}}
@@ -191,9 +187,9 @@ instâncias remanescentes.
 O fluxo pode ser descrito em três etapas principais:  
 1. \textbf{Filtragem inicial (OCC):} empresas consideradas muito discrepantes em relação ao
 conjunto ICP são classificadas como outliers e eliminadas.  
-2. \textbf{Cálculo de escores (DBS):} para as empresas restantes, calcula-se
+2. \textbf{Cálculo de sscores (DBS):} para as empresas restantes, calcula-se
 a proximidade em relação a um centro representativo do ICP, atribuindo
-escores contínuos de similaridade.  
+sscores contínuos de similaridade.  
 3. \textbf{Ranqueamento final:} as empresas são ordenadas de acordo com o
 escore, possibilitando a priorização de leads de maior aderência.
 
@@ -214,20 +210,6 @@ tomada de decisão em vendas e marketing B2B.
 A adoção do fluxo híbrido permite reduzir significativamente a
 subjetividade na construção do ICP, fornecendo um processo reprodutível,
 auditável e orientado por dados. Além disso, a metodologia é flexível:
-diferentes variantes de OCC (como OC-SVM ou Isolation Forest) e métricas
-de DBS (como euclidiana ou cosseno) podem ser combinadas conforme as
+diferentes variantes de OCC (como Isolation Forest) e métricas
+de DBS (como euclidiana) podem ser combinadas conforme as
 características do conjunto de dados.
-
-
-
-\section{TRATAMENTO DE OUTLIERS}
-
-A presença de observações discrepantes, conhecidas como \textit{outliers}, é um desafio recorrente em projetos de análise de dados e modelagem preditiva. Em contextos de aprendizado não supervisionado, onde não há rótulos disponíveis para indicar quais instâncias são desejáveis ou não, os \textit{outliers} representam um risco ainda maior, pois podem distorcer significativamente o espaço de representação dos dados. Isso é particularmente relevante quando se busca identificar perfis ideais, como no caso deste trabalho, em que se pretende caracterizar o \textit{Ideal Customer Profile} (ICP) a partir de dados de empresas que já são clientes de fornecedoras de benefícios corporativos.
-
-Apesar de todas as empresas da base analisada serem clientes ativas de organizações como Gympass, TotalPass ou Swile, é razoável assumir que nem todas representam o ICP genuíno. Algumas podem ter sido adquiridas por estratégias pontuais, por abordagens comerciais não direcionadas, ou ainda podem pertencer a segmentos fora do foco estratégico atual. A presença dessas observações pode comprometer a definição do que é o perfil ideal de cliente, especialmente em algoritmos sensíveis à densidade ou à distribuição das variáveis.
-
-Diante desse cenário, foi adotada uma etapa explícita de filtragem de \textit{outliers} antes da aplicação dos modelos de ranqueamento. A técnica escolhida para essa tarefa foi o \textit{Isolation Forest}, um algoritmo de detecção de anomalias baseado no princípio da separabilidade de instâncias. Ao contrário de métodos que calculam distâncias ou densidades, o \textit{Isolation Forest} funciona construindo árvores binárias aleatórias que particionam o espaço dos dados. A intuição por trás do algoritmo é que observações anômalas são mais fáceis de isolar — ou seja, requerem um menor número de divisões para serem separadas do restante da base — do que observações normais, que tendem a estar embutidas em regiões mais densas e complexas.
-
-O algoritmo foi configurado com uma taxa de contaminação de 5\%, isto é, assumiu-se que aproximadamente 5\% das empresas presentes na base poderiam ser consideradas discrepantes em relação ao padrão médio observado. Essa escolha foi embasada tanto em critérios empíricos quanto na literatura, que sugere faixas similares em aplicações de perfis de clientes. O uso do \textit{Isolation Forest} como etapa preliminar permitiu ao modelo excluir, com base estatística, aquelas empresas cujas características destoavam significativamente do conjunto analisado, reduzindo o ruído e aprimorando a qualidade da inferência posterior.
-
-Essa filtragem foi aplicada diretamente sobre os dados já vetorizados e escalados, garantindo que os critérios de anormalidade considerassem o conjunto completo de variáveis utilizadas no modelo. Somente após essa etapa é que os métodos de \textit{Distance-Based Scoring} (DBS) foram aplicados, assegurando que o ranqueamento fosse calculado apenas sobre empresas cuja estrutura firmográfica estivesse alinhada com o padrão estatístico geral da base de clientes. Esse procedimento combinou, portanto, rigor matemático com coerência de negócio, e contribuiu para a robustez e a confiabilidade da abordagem adotada.

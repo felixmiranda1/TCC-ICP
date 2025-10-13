@@ -2,9 +2,9 @@
 
 \section{VISÃO GERAL DA PIPELINE DE DADOS}
 
-O ponto de partida deste trabalho foi a identificação das empresas clientes de grandes fornecedoras de benefícios corporativos, como Gympass, TotalPass, Unimed e Swile. Para essa finalidade, utilizou-se a Coresignal API, que disponibiliza dados extraídos de plataformas de vagas de emprego e redes profissionais. Essa fonte foi escolhida porque, ao anunciar posições com benefícios corporativos específicos, as empresas deixam um registro público que permite inferir sua condição de cliente das corporações ofertantes. Assim, cada vaga coletada funciona como uma evidência de vínculo comercial entre a empresa contratante e a fornecedora de benefícios.
+O ponto de partida deste trabalho foi a identificação das empresas clientes de grandes fornecedoras de benefícios corporativos, especificamente Gympass, TotalPass, Unimed, Psicologia Viva e Swile. Para essa finalidade, utilizou-se a Coresignal API, que disponibiliza dados extraídos de plataformas de vagas de emprego e redes profissionais. Essa fonte foi escolhida porque, ao anunciar posições com benefícios corporativos específicos, as empresas deixam um registro público que permite inferir sua condição de cliente das corporações ofertantes. Assim, cada vaga coletada funciona como uma evidência de vínculo comercial entre a empresa contratante e a fornecedora de benefícios.
 
-Uma vez estabelecida essa identificação central, procedeu-se ao enriquecimento firmográfico dos registros, incorporando atributos descritivos que possibilitam caracterizar melhor cada organização. Nesse estágio, foram utilizadas APIs como a ReceitaWS e a BrasilAPI, que oferecem dados vinculados ao Cadastro Nacional da Pessoa Jurídica (CNPJ), incluindo razão social, porte, capital social e atividade econômica principal. Fontes auxiliares, como o Instituto Brasileiro de Geografia e Estatística (IBGE) e a tabela CONCLA, também foram integradas, permitindo padronizar os segmentos de atuação e a localização geográfica das empresas.
+Uma vez estabelecida essa identificação central, procedeu-se ao enriquecimento firmográfico dos registros, incorporando atributos descritivos que possibilitam caracterizar melhor cada organização. Nesse estágio, foram utilizadas APIs como a ReceitaWS e a BrasilAPI, que oferecem dados vinculados ao Cadastro Nacional da Pessoa Jurídica (CNPJ), incluindo razão social, porte, capital social e atividade econômica principal. 
 
 Complementarmente, recorreu-se à coleta de dados em redes profissionais como o LinkedIn, especialmente para estimar o número de funcionários e a distribuição geográfica de determinadas organizações.
 
@@ -32,27 +32,6 @@ A primeira etapa foi realizar consultas ao endpoint de busca da Coresignal, filt
     \item fossem localizadas no Brasil,
     \item estivessem dentro de uma janela temporal recente (últimos meses).
 \end{itemize}
-
-\begin{lstlisting}[language=Python, caption={Consulta à API da Coresignal para coletar vagas}, label={lst:consulta-coresignal}]
-    payload = {
-       "query": {
-           "bool": {
-               "must": [
-                   {"match": {"description": "TotalPass"}},
-                   {"match": {"location": "Brazil"}},
-                   {"range": {"created": {"gte": "now-10M/M"}}}
-               ],
-               "must_not": must_not_filters
-           }
-       }
-    }
-    
-    # Envia a requisicao POST para buscar novos job_ids
-    response = requests.post(
-       "https://api.coresignal.com/cdapi/v2/job_base/search/es_dsl",
-       headers=headers, data=json.dumps(payload)
-    )
-    \end{lstlisting}
 
 Esse filtro garante que apenas anúncios relevantes sejam retornados, constituindo o núcleo bruto do dataset.
 

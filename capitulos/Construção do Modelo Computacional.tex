@@ -4,7 +4,7 @@ O presente capítulo descreve, de forma prática e detalhada, o processo de cons
 
 \section{PRÉ-PROCESSAMENTO DOS DADOS}
 
-A etapa de pré-processamento foi responsável por transformar os dados brutos obtidos via \textit{scraping} em uma estrutura adequada para aplicação de algoritmos de aprendizado de máquina. Inicialmente, os nomes das colunas foram padronizados para letras minúsculas e formato \textit{snake\_case}, além da remoção de espaços, acentos e colunas irrelevantes (como CNPJ, URLs, textos descritivos e campos auxiliares).
+A etapa de pré-processamento foi responsável por transformar os dados obtidos via \textit{scraping} e previamente tratados em uma estrutura adequada para aplicação de algoritmos de aprendizado de máquina. Inicialmente, os nomes das colunas foram padronizados para letras minúsculas e formato \textit{snake\_case}, além da remoção de espaços, acentos e colunas irrelevantes (como CNPJ, URLs, textos descritivos e campos auxiliares).
 
 Em seguida, os dados da variável \textit{localização}, originalmente armazenados como uma string heterogênea (e.g., ``Curitiba, Paraná'', ``São Paulo, SP'', ``New York''), foram processados por meio de uma função de \textit{parsing}. Essa função normalizou acentos e capitalização, identificou tanto siglas (UFs) quanto nomes de estados brasileiros por extenso, e criou dois novos campos: cidade e estado. Após essa etapa, apenas o campo estado foi mantido como variável categórica, enquanto valores internacionais permaneceram sem UF identificada, garantindo consistência nos casos nacionais.
 
@@ -30,11 +30,9 @@ A saída dessa etapa foi uma matriz vetorizada (\texttt{X\_processed}) e um \tex
 
 Após a vetorização dos dados, aplicaram-se técnicas de \textit{One-Class Classification} (OCC) com o objetivo de identificar e remover observações que destoam significativamente do perfil geral da base — isto é, empresas que não apresentam similaridade estrutural suficiente para serem consideradas candidatas ao ICP. Essa filtragem é fundamental para evitar que \textit{outliers} distorçam as métricas de similaridade nas etapas subsequentes do modelo.
 
-Foram empregados dois algoritmos não supervisionados clássicos para essa tarefa: o \textit{One-Class Support Vector Machine} (OC-SVM) e a \textit{Isolation Forest}. Ambos foram treinados diretamente sobre os vetores \texttt{X\_processed}, obtidos após o pré-processamento.
+Foi empregado um algoritmo clássico para essa tarefa: o \textit{Isolation Forest}. Ele foi treinado diretamente sobre os vetores \texttt{X\_processed}, obtidos após o pré-processamento.
 
-O One-Class SVM utiliza um kernel RBF para identificar a fronteira que envolve a maioria dos dados considerados ``normais'', classificando como anomalias os pontos que se encontram fora dessa superfície. Para essa aplicação, utilizou-se um valor de $\nu = 0.05$, assumindo que até 5\% da base poderiam ser \textit{outliers}. O método foi mantido na pipeline apenas para fins comparativos e diagnósticos.
-
-Já a \textit{Isolation Forest}, modelo baseado em árvores aleatórias de partição, demonstrou maior robustez e interpretabilidade ao identificar anomalias por meio da facilidade com que uma instância pode ser isolada. Esse método também foi configurado com uma taxa de contaminação de 5\%, e sua saída foi utilizada para filtrar os dados efetivamente: apenas as empresas classificadas como \textit{inliers} (isto é, não-anômalas) foram mantidas para os próximos estágios.
+O \textit{Isolation Forest}, modelo baseado em árvores aleatórias de partição, demonstrou grande robustez e interpretabilidade ao identificar anomalias por meio da facilidade com que uma instância pode ser isolada. Esse método foi configurado com uma taxa de contaminação de 5\%, e sua saída foi utilizada para filtrar os dados efetivamente: apenas as empresas classificadas como \textit{inliers} (isto é, não-anômalas) foram mantidas para os próximos estágios.
 
 Ao final dessa etapa, a base vetorizada foi reduzida de acordo com as predições da \textit{Isolation Forest}. Os dados excluídos representam organizações com perfis atípicos, cuja presença poderia comprometer a construção de uma métrica de similaridade confiável. A Tabela 5.1 ilustra as estatísticas dos scores produzidos por ambos os modelos, e a Figura 5.2 mostra a distribuição dos valores.
 
