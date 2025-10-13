@@ -1,97 +1,98 @@
 \chapter{CONSTRUÇÃO DO MODELO COMPUTACIONAL}
 
-O presente capítulo descreve, de forma prática e detalhada, o processo de construção do modelo computacional proposto para identificação do \textit{Ideal Customer Profile} (ICP) no setor de benefícios corporativos. A abordagem combina técnicas de pré-processamento, detecção de outliers, medição de similaridade e ranqueamento final, estruturadas em um pipeline reproduzível e modular. A implementação foi realizada no ambiente Google Colab, utilizando a linguagem Python e bibliotecas como \texttt{scikit-learn}, \texttt{pandas} e \texttt{seaborn}. Cada etapa do fluxo foi encapsulada em funções que permitem aplicação em diferentes bases de dados, garantindo escalabilidade e adaptabilidade do método.
+O presente capítulo descreve, de forma aplicada e detalhada, o processo de implementação do modelo computacional desenvolvido para identificação do \textit{Ideal Customer Profile} (ICP) no setor de benefícios corporativos. A construção foi realizada em ambiente \textit{Google Colab}, utilizando a linguagem Python (versão 3.10) e bibliotecas como \texttt{pandas}, \texttt{scikit-learn}, \texttt{numpy} e \texttt{seaborn}. O pipeline proposto combina etapas de pré-processamento, detecção de \textit{outliers} e ranqueamento via medidas de similaridade (\textit{Distance-Based Scoring}), compondo um fluxo modular e reprodutível.
+
+\section{VISÃO GERAL DO PIPELINE}
+
+O pipeline implementado foi estruturado em funções independentes, permitindo a aplicação em diferentes bases de empresas. A Figura~\ref{fig:fluxo_pipeline} ilustra as principais etapas:
+\begin{enumerate}
+    \item \textbf{Pré-processamento dos dados firmográficos};
+    \item \textbf{Detecção de outliers} com o algoritmo \textit{Isolation Forest};
+    \item \textbf{Cálculo de similaridade} por meio de duas métricas complementares (Distância ao centróide e Distância média aos $k$ vizinhos mais próximos);
+    \item \textbf{Ranking final híbrido}, ponderando as métricas de similaridade.
+\end{enumerate}
+
+A estrutura modular do código garante escalabilidade e reuso, mantendo o pipeline íntegro e parametrizável. Todas as etapas foram executadas sobre a base de 351 empresas coletadas via \textit{scraping} e tratadas previamente.
 
 \section{PRÉ-PROCESSAMENTO DOS DADOS}
 
-A etapa de pré-processamento foi responsável por transformar os dados obtidos via \textit{scraping} e previamente tratados em uma estrutura adequada para aplicação de algoritmos de aprendizado de máquina. Inicialmente, os nomes das colunas foram padronizados para letras minúsculas e formato \textit{snake\_case}, além da remoção de espaços, acentos e colunas irrelevantes (como CNPJ, URLs, textos descritivos e campos auxiliares).
+A etapa de pré-processamento teve como objetivo adaptar a base de dados a um formato numérico e padronizado, compatível com os algoritmos de aprendizado de máquina utilizados na modelagem do ICP.
 
-Em seguida, os dados da variável \textit{localização}, originalmente armazenados como uma string heterogênea (e.g., ``Curitiba, Paraná'', ``São Paulo, SP'', ``New York''), foram processados por meio de uma função de \textit{parsing}. Essa função normalizou acentos e capitalização, identificou tanto siglas (UFs) quanto nomes de estados brasileiros por extenso, e criou dois novos campos: cidade e estado. Após essa etapa, apenas o campo estado foi mantido como variável categórica, enquanto valores internacionais permaneceram sem UF identificada, garantindo consistência nos casos nacionais.
+\subsection{Padronização e limpeza inicial}
 
-O campo \texttt{capital\_social} passou por uma limpeza que removeu separadores de milhar e casas decimais irrelevantes, sendo convertido para tipo numérico. O mesmo procedimento foi adotado para a variável funcionários, cujos valores foram convertidos em inteiros representando a força de trabalho de cada empresa.
+O conjunto de dados foi importado diretamente do Google Drive, de arquivo .csv para cada uma das bases de dados das 5 empresas que a compõe, e as colunas foram renomeadas para o padrão \textit{snake\_case} com remoção de acentos e espaços. Foram eliminadas variáveis irrelevantes como \texttt{CNPJ}, URLs, descrições textuais e intervalos categóricos de capital e funcionários. Estas foram as variáveis efetivamente empregadas:
 
-Após essa limpeza, foram definidas duas classes principais de atributos:
 \begin{itemize}
-    \item Atributos numéricos: \texttt{capital\_social} e \texttt{funcionários};
-    \item Atributos categóricos: \texttt{segmento} e \texttt{estado}.
+    \item \textbf{Numéricas:} \texttt{capital\_social}, \texttt{funcionários};
+    \item \textbf{Categóricas:} \texttt{segmento}, \texttt{estado}.
 \end{itemize}
 
-Para tornar os dados compatíveis com os modelos de \textit{machine learning} utilizados, aplicou-se um \texttt{ColumnTransformer} contendo:
+\subsection{Normalização da variável de localização}
+
+A coluna \texttt{localização}, originalmente composta por cadeias heterogêneas (por exemplo, ``Curitiba, Paraná'' ou ``São Paulo, SP''), foi tratada pela função \texttt{parse\_localizacao()}, que identifica e padroniza o estado (UF) de cada empresa. Casos internacionais permaneceram sem UF definida. Apenas o campo \texttt{estado} foi mantido como variável categórica final.
+
+\subsection{Tratamento numérico e vetorização}
+
+Os valores de capital social e número de funcionários foram convertidos para tipo numérico após a remoção de separadores e símbolos. Em seguida, utilizou-se um \texttt{ColumnTransformer} contendo dois fluxos principais:
 \begin{itemize}
-    \item um pipeline de atributos numéricos com \texttt{SimpleImputer} (mediana) e \texttt{StandardScaler};
-    \item um pipeline de atributos categóricos com \texttt{SimpleImputer} (moda) e \texttt{OneHotEncoder} (\texttt{sparse=False}).
+    \item \textbf{Pipeline numérico:} \texttt{SimpleImputer(strategy='median')} e \texttt{StandardScaler()};
+    \item \textbf{Pipeline categórico:} \texttt{SimpleImputer(strategy='most\_frequent')} e \texttt{OneHotEncoder(sparse=False)}.
 \end{itemize}
 
-A saída dessa etapa foi uma matriz vetorizada (\texttt{X\_processed}) e um \texttt{DataFrame} equivalente (\texttt{X\_df\_processed}) com todas as colunas expandidas e normalizadas, permitindo total transparência e reprodutibilidade nos passos subsequentes. 
+\section{OCC: DETECÇÃO DE OUTLIERS}
 
-% TODO: inserir Tabela ou Figura do .head() do X_df_processed (Figura 5.1)
+Após o pré-processamento, foi aplicada a etapa de detecção de empresas com padrões firmográficos atípicos, utilizando o algoritmo \textit{Isolation Forest}. O modelo foi implementado diretamente sobre a matriz vetorizada \texttt{X\_processed}, com parâmetros definidos para 5\% de contaminação e \texttt{random\_state=42}, garantindo consistência entre execuções.
 
-\section{DETECÇÃO DE OUTLIERS COM MODELOS ONE-CLASS CLASSIFICATION}
+No código, o modelo foi ajustado (\texttt{fit}) e posteriormente utilizado para gerar dois vetores: \texttt{iso\_labels}, contendo a classificação binária de cada empresa (\texttt{1} para inlier e \texttt{-1} para outlier), e \texttt{iso\_scores}, com o grau de normalidade calculado pelo modelo. Os valores foram invertidos para que maiores scores representassem maior aderência ao perfil típico da amostra.
 
-Após a vetorização dos dados, aplicaram-se técnicas de \textit{One-Class Classification} (OCC) com o objetivo de identificar e remover observações que destoam significativamente do perfil geral da base — isto é, empresas que não apresentam similaridade estrutural suficiente para serem consideradas candidatas ao ICP. Essa filtragem é fundamental para evitar que \textit{outliers} distorçam as métricas de similaridade nas etapas subsequentes do modelo.
+A filtragem foi implementada com uma máscara booleana, preservando apenas as instâncias rotuladas como \textit{inliers}, originando os conjuntos \texttt{X\_inliers} e \texttt{df\_inliers}. O procedimento resultou na exclusão de aproximadamente 5\% das empresas originais, removendo casos extremos de capital ou porte, e preparando a base para a etapa de cálculo de similaridade.
 
-Foi empregado um algoritmo clássico para essa tarefa: o \textit{Isolation Forest}. Ele foi treinado diretamente sobre os vetores \texttt{X\_processed}, obtidos após o pré-processamento.
+Essa decisão de design — usar o \textit{Isolation Forest} como filtro inicial — teve caráter prático: simplifica a eliminação de ruído sem exigir hiperparâmetros complexos, garantindo estabilidade e consistência antes da etapa de ranqueamento.
 
-O \textit{Isolation Forest}, modelo baseado em árvores aleatórias de partição, demonstrou grande robustez e interpretabilidade ao identificar anomalias por meio da facilidade com que uma instância pode ser isolada. Esse método foi configurado com uma taxa de contaminação de 5\%, e sua saída foi utilizada para filtrar os dados efetivamente: apenas as empresas classificadas como \textit{inliers} (isto é, não-anômalas) foram mantidas para os próximos estágios.
+\section{CÁLCULO DE SIMILARIDADE (DBS)}
 
-Ao final dessa etapa, a base vetorizada foi reduzida de acordo com as predições da \textit{Isolation Forest}. Os dados excluídos representam organizações com perfis atípicos, cuja presença poderia comprometer a construção de uma métrica de similaridade confiável. A Tabela 5.1 ilustra as estatísticas dos scores produzidos por ambos os modelos, e a Figura 5.2 mostra a distribuição dos valores.
+Com a base final de empresas consideradas \textit{inliers}, foi executada a etapa de cálculo de similaridade, que atribui a cada empresa um valor contínuo de aderência ao perfil ICP. Essa etapa foi inteiramente implementada no Colab e aplicada apenas às observações não classificadas como outliers pelo \textit{Isolation Forest}.
 
-% TODO: inserir tabela de Estatísticas dos scores gerados por OC-SVM e Isolation Forest (Tabela 5.1)
+O cálculo foi conduzido em duas partes, ambas baseadas em medidas de distância no espaço vetorial padronizado. Primeiramente, foi criada uma máscara booleana de \textit{inliers} (\texttt{iso\_forest\_predictions == 1}) para garantir que apenas as empresas consistentes participassem do processo. Em seguida, dois vetores de pontuação foram inicializados com valores nulos (\texttt{NaN}) e preenchidos apenas para as posições válidas.
 
-% TODO: inserir Figura de distribuição dos scores (Figura 5.2)
+\subsection{Distância ao centróide}
 
-A decisão de utilizar exclusivamente a \textit{Isolation Forest} para filtragem foi motivada por sua simplicidade interpretativa, maior estabilidade nas iterações e melhor alinhamento com as propriedades estatísticas da base. O resultado foi uma matriz \texttt{X\_filtrado} contendo apenas os vetores de empresas compatíveis com o perfil estrutural dominante, fornecendo uma base sólida para a análise de similaridade descrita na próxima seção.
+O primeiro cálculo mediu a distância de cada empresa ao centróide do conjunto de \textit{inliers}, obtido pela média de todas as variáveis numéricas e categóricas codificadas. A partir dessas distâncias, foi utilizada uma normalização local com \texttt{MinMaxScaler} e invertido o sinal dos resultados, de modo que empresas mais próximas ao centróide recebessem valores mais altos de similaridade. Essa operação gerou o vetor \texttt{dbs\_centroid\_scores}, que representa a aderência global ao perfil médio do ICP. O código também imprimiu a média desses scores e gerou um histograma de distribuição para inspeção visual da concentração dos resultados.
 
-\section{CÁLCULO DE SIMILARIDADE VIA ESTRATÉGIAS DISTANCE-BASED (DBS)}
+\subsection{Distância média aos vizinhos mais próximos}
 
-Com a base de empresas ``não anômalas'' previamente filtrada pela \textit{Isolation Forest}, o modelo passa a atribuir um grau de aderência de cada empresa ao perfil ideal (ICP) por meio de técnicas baseadas em distância. Essa abordagem, denominada \textit{Distance-Based Scoring} (DBS), considera que empresas mais próximas ao ``centro'' da nuvem de dados são mais representativas do ICP, enquanto aquelas mais distantes tendem a se afastar desse padrão.
+Na segunda parte, foi aplicada a métrica de densidade local, que calcula a distância média de cada empresa a seus dez vizinhos mais próximos no espaço vetorial. Foi utilizado o método \texttt{NearestNeighbors} com $k=10$, e para cada ponto foi calculada a média das distâncias, desconsiderando a auto-referência. Assim como na etapa anterior, os valores foram normalizados para o intervalo [0,1] e invertidos, produzindo o vetor \texttt{dbs\_knn\_scores}. 
 
-Duas estratégias distintas foram adotadas para esse cálculo de similaridade:
+A média dos scores normalizados também foi registrada e visualizada por meio de um histograma, permitindo identificar o comportamento da densidade entre os \textit{inliers}. Empresas com pontuação elevada nessa métrica estão em regiões do espaço com maior concentração de perfis semelhantes.
 
-\subsection{\textbf{Distância ao Centróide}}
+\subsection{Síntese da etapa}
 
-A primeira métrica parte do pressuposto de que o perfil médio das empresas ICP pode ser representado pelo centróide vetorial — isto é, a média de todas as variáveis numéricas e categóricas vetorizadas. A distância euclidiana de cada ponto em relação a esse centróide é então interpretada como uma medida inversa de similaridade: quanto menor a distância, maior a aderência ao ICP.
+Ao final, o procedimento resultou em dois vetores de scores — um baseado na centralidade (centróide) e outro na densidade local (k-NN) —, ambos associados apenas às empresas \textit{inliers}. Essa estrutura forneceu as métricas quantitativas que alimentam o ranking final híbrido apresentado na próxima seção.
 
-Matematicamente, essa distância é dada por:
+\section{RANKING FINAL HÍBRIDO}
 
-\begin{equation}
-d_i = \left\| x_i - \bar{x} \right\|_2
-\end{equation}
+Com as métricas de similaridade calculadas, a etapa seguinte consistiu em consolidar os resultados em um único indicador contínuo, representando o grau de aderência de cada empresa ao perfil ICP. O ranqueamento final foi estruturado de forma híbrida, utilizando as duas métricas de \textit{Distance-Based Scoring} (centróide e k-NN), ponderadas segundo sua relevância empírica observada nos testes.
 
-Onde $x_i$ é o vetor da empresa $i$ e $\bar{x}$ é o centróide global. Para tornar o score mais interpretável, os valores foram normalizados via \texttt{MinMaxScaler} e invertidos, de forma que o score final assume valores entre 0 e 1, sendo 1 a empresa mais próxima ao centróide.
+\subsection{Combinação ponderada dos scores}
 
-\subsection{\textbf{Distância Média aos k-Vizinhos Mais Próximos (k-NN)}}
+No código, foi criado um novo \texttt{DataFrame} chamado \texttt{scores\_df}, contendo as pontuações de cada métrica para todas as empresas. As colunas principais incluem os vetores \texttt{dbs\_centroid\_scores} e \texttt{dbs\_knn\_scores}, calculados exclusivamente para as instâncias classificadas como \textit{inliers}. 
 
-A segunda métrica de similaridade foi baseada em \textit{k-Nearest Neighbors} (k-NN). Para cada empresa, calcularam-se as distâncias para seus $k = 10$ vizinhos mais próximos no espaço vetorial, desconsiderando a si mesma. A média dessas distâncias foi utilizada como score: quanto menor a média, mais densa e típica é a vizinhança da empresa no espaço ICP.
+O cálculo do score final foi feito de forma ponderada, atribuindo peso de 0.8 à métrica de centróide e 0.2 à métrica de k-NN, conforme a expressão:
 
-Tal como no método anterior, os scores foram normalizados e invertidos para seguir a mesma lógica interpretativa: quanto maior o score, maior a probabilidade da empresa pertencer ao ICP.
+\[
+\text{score\_final}_i = 0.8 \times \text{dbs\_centroid\_score}_i + 0.2 \times \text{dbs\_knn\_score}_i
+\]
 
-\subsection{\textbf{Considerações}}
+Essa proporção foi definida após experimentação empírica, considerando que a distância ao centróide reflete de maneira mais estável o alinhamento global ao perfil médio, enquanto o componente k-NN adiciona sensibilidade à densidade local de perfis semelhantes.
 
-As duas abordagens se complementam. Enquanto a primeira captura a proximidade ao perfil médio, a segunda mede a densidade local de similaridade. Ao combiná-las, o modelo oferece uma visão mais robusta da aderência de cada organização ao padrão desejado.
+\subsection{Tratamento de outliers e política de preenchimento}
 
-O uso dessas estratégias permite a criação de um ranking contínuo de empresas, de forma granular e interpretável. A próxima seção descreve como os diferentes scores — tanto de OCC quanto de DBS — foram combinados para formar o escore final de ICP.
+Empresas marcadas como \textit{outliers} pelo \textit{Isolation Forest} não participam da média ponderada. A função de ranqueamento implementa uma política de exclusão configurável (\texttt{outlier\_policy}), que define se os casos removidos devem receber valor nulo (\texttt{NaN}) ou zero. Por padrão, foi utilizada a opção \texttt{"nan"}, excluindo-os da ordenação final.
 
-\section{RANKING FINAL}
+\subsection{Geração do ranking}
 
-A etapa final do pipeline consiste em combinar os diferentes scores produzidos pelos modelos OCC (\textit{One-Class Classification}) e DBS (\textit{Distance-Based Scoring}) em uma métrica unificada de priorização. O objetivo é construir um ranking contínuo de empresas, ordenado pela sua similaridade ao perfil ideal de cliente (ICP).
+Após a combinação dos scores, os resultados foram normalizados e ordenados de forma decrescente. O notebook exibe automaticamente o \textit{Top 10} das empresas com maior pontuação média, destacando aquelas mais próximas ao perfil ideal modelado. Esse resultado corresponde ao conjunto de clientes com maior similaridade estatística ao ICP definido, funcionando como uma priorização quantitativa para prospecção comercial.
 
-Para cada empresa mantida após a filtragem da \textit{Isolation Forest}, foram obtidos os seguintes indicadores:
-\begin{itemize}
-    \item \texttt{oc\_svm\_score} — Score de decisão do One-Class SVM;
-    \item \texttt{iso\_forest\_score} — Score de decisão da Isolation Forest;
-    \item \texttt{dbs\_centroid\_score} — Score de similaridade baseado na distância ao centróide (já normalizado e invertido);
-    \item \texttt{dbs\_knn\_score} — Score baseado na densidade local (média dos 10 vizinhos mais próximos), também normalizado e invertido.
-\end{itemize}
+\subsection{Resumo da etapa}
 
-Embora todos os quatro indicadores contenham informações relevantes, a maior confiabilidade foi atribuída aos dois últimos, por refletirem diretamente a similaridade vetorial entre empresas. Ainda assim, decidiu-se manter os scores OCC na combinação para capturar possíveis nuances de estrutura latente não linear nos dados.
-
-\subsection{\textbf{Cálculo da Média Final}}
-
-A composição do score final se deu pela média aritmética:
-
-\begin{equation}
-\text{score\_final}_i = \frac{1}{4} \left( \text{oc\_svm}_i + \text{iso\_forest}_i + \text{dbs\_centroid}_i + \text{dbs\_knn}_i \right)
-\end{equation}
-
-Este valor representa a probabilidade relativa de que uma empresa pertença ao perfil ICP, sendo que quanto mais próximo de 1, maior a similaridade com as empresas originalmente identificadas como clientes.
+A abordagem híbrida adotada — ponderando centralidade global e densidade local — produziu um ranking contínuo e interpretável. Essa configuração privilegia empresas que não apenas se aproximam do perfil médio, mas também estão situadas em regiões de alta concentração de perfis semelhantes, equilibrando robustez e precisão na definição do ICP.
