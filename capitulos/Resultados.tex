@@ -33,17 +33,25 @@ A uniformidade metodológica garante que as diferenças observadas nos resultado
 
 A análise exploratória teve como objetivo compreender a composição e dispersão dos dados após o pré-processamento, verificando padrões geográficos, setoriais e de porte entre as empresas de cada base.
 
-\subsection*{Distribuição Geográfica}
+\subsection{Distribuição Geográfica}
 
-A Figura~\ref{fig:7_1_estado_all} (a ser inserida) apresentará a distribuição por estado das empresas das cinco bases. Em todas, o estado de São Paulo concentra a maioria absoluta das empresas — 184 (52\%) no TotalPass e 72 (29\%) no Gympass — seguido por presenças menores em Rio de Janeiro, Minas Gerais, Paraná e Santa Catarina. Esse padrão reflete a centralização econômica e tecnológica na região Sudeste.
+A Figura~\ref{fig:map} apresentará a distribuição por estado das empresas das cinco bases. Em todas, o estado de São Paulo concentra a maioria absoluta das empresas — 184 (52\%) no TotalPass e 72 (29\%) no Gympass — seguido por presenças menores em Rio de Janeiro, Minas Gerais, Paraná e Santa Catarina. Esse padrão reflete a centralização econômica e tecnológica na região Sudeste.
 
-\subsection*{Distribuição por Segmento}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/Map.jpeg}
+    \caption{Distribuição geográfica por UF — mapa consolidado das cinco bases.}
+    \label{fig:map}
+    \legend{Fonte: elaboração própria.}
+\end{figure}
+
+\subsection{Distribuição por Segmento}
 
 As cinco bases exibem predominância de setores ligados à tecnologia e serviços corporativos. No TotalPass, destacam-se \textit{Desenvolvimento de programas de computador sob encomenda} e \textit{Consultoria em TI}; já no Gympass, sobressaem \textit{Desenvolvimento e licenciamento de softwares customizáveis} e \textit{Holdings de instituições não-financeiras}. Essa consistência indica que o modelo de benefícios corporativos tende a atrair empresas com perfis digitais ou administrativos.
 
-\subsection*{Estatísticas Descritivas}
+\subsection{Estatísticas Descritivas}
 
-A Tabela~\ref{tab:7_3_all} sintetiza as estatísticas das variáveis principais — \textit{capital\_social} e \textit{funcionários}. Observa-se ampla dispersão, típica de bases heterogêneas compostas por empresas de portes distintos. A mediana e o intervalo interquartil, contudo, indicam predominância de empresas de médio porte.
+A Tabela~\ref{tab:7_3a_capital} sintetiza as estatísticas de \textit{capital\_social} enquanto a Tabela~\ref{tab:7_3b_funcionarios} apresenta as estatísticas de \textit{funcionários}. Observa-se ampla dispersão, típica de bases heterogêneas compostas por empresas de portes distintos. A mediana e o intervalo interquartil, contudo, indicam predominância de empresas de médio porte.
 
 \begin{table}[H]
 \centering
@@ -186,12 +194,12 @@ Os valores próximos entre os cinco provedores demonstram a consistência da met
 
 A Figura~\ref{fig:7_5_dbs_dist} (a ser inserida) apresentará a distribuição comparativa dos scores normalizados, permitindo observar que a maior parte das empresas concentra-se na faixa de 0,9 a 1,0 para o score centróide, e de 0,85 a 0,9 para o score k-NN. Esse padrão confirma que todas as bases possuem alto grau de homogeneidade estrutural.
 
-\subsection*{Análise Interpretativa}
+\subsection{Análise Interpretativa}
 
 O score centróide, associado à similaridade global com o perfil médio, apresentou valores ligeiramente superiores ao k-NN em todas as amostras, o que sugere que o conjunto de empresas tende a formar um núcleo compacto com pequenas variações locais. Essa diferença é desejável, pois o componente k-NN atua como refinamento da análise global, capturando pequenas nuances setoriais e regionais.
 
 
-\subsection*{Visualizações de Apoio}
+\subsection{Visualizações de Apoio}
 
 Para fins de explicabilidade, serão incluídas as seguintes visualizações:
 
