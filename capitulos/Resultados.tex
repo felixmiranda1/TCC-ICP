@@ -1,7 +1,7 @@
 \chapter{RESULTADOS}
 
 \noindent
-Este capítulo apresenta os resultados empíricos obtidos a partir da aplicação do modelo híbrido (OCC + DBS) sobre a base de empresas vinculadas ao provedor \textbf{TotalPass}. Este provedor foi escolhido como primeiro estudo de caso por apresentar base consolidada e representar adequadamente o segmento de benefícios corporativos. Nas iterações seguintes, a mesma estrutura será aplicada a outros provedores (Gympass, Swile, Unimed, Psicologia Viva etc.), permitindo análises comparativas entre perfis de ICP.
+Este capítulo apresenta os resultados empíricos obtidos a partir da aplicação do modelo híbrido (OCC + DBS) para a base de clientes das cinco corporações analisadas: Gympass, Totalpass, Swile, Unimed e Psicologia Viva.
 
 
 \section{Visão Geral do Pré-Processamento das Bases}
@@ -119,7 +119,7 @@ Unimed & 338 & 17 & 5,0\% & 0,0124 & [-0,0151 ; 0,0243] \\
 
 Os resultados demonstram consistência no comportamento do modelo, com proporções similares de anomalias nas cinco bases. Essa estabilidade reforça a adequação do \textit{Isolation Forest} como ferramenta de filtragem prévia para a metodologia proposta.
 
-A Figura~\ref{fig:7_3_occ_dist} (a ser inserida) ilustrará a distribuição dos scores de anomalia para todas as bases, evidenciando que a maior parte das empresas apresenta valores próximos à faixa neutra (entre 0,01 e 0,03), indicando alinhamento ao perfil ICP.
+As Figuras abaixo mostram a distribuição dos scores de anomalia para todas as bases, evidenciando que a maior parte das empresas apresenta valores próximos à faixa neutra (entre 0,01 e 0,03), indicando alinhamento ao perfil ICP.
 
 \begin{figure}[H]
     \centering
@@ -192,21 +192,9 @@ Unimed & 321 & 0,9788 & 0,0816 & 0,9410 & 0,0701 \\
 
 Os valores próximos entre os cinco provedores demonstram a consistência da metodologia: a variação inferior a 0,01 na média dos scores centróide e k-NN indica comportamento estável, independentemente do tamanho da base ou da natureza das empresas analisadas. 
 
-A Figura~\ref{fig:7_5_dbs_dist} (a ser inserida) apresentará a distribuição comparativa dos scores normalizados, permitindo observar que a maior parte das empresas concentra-se na faixa de 0,9 a 1,0 para o score centróide, e de 0,85 a 0,9 para o score k-NN. Esse padrão confirma que todas as bases possuem alto grau de homogeneidade estrutural.
-
 \subsection{Análise Interpretativa}
 
 O score centróide, associado à similaridade global com o perfil médio, apresentou valores ligeiramente superiores ao k-NN em todas as amostras, o que sugere que o conjunto de empresas tende a formar um núcleo compacto com pequenas variações locais. Essa diferença é desejável, pois o componente k-NN atua como refinamento da análise global, capturando pequenas nuances setoriais e regionais.
-
-
-\subsection{Visualizações de Apoio}
-
-Para fins de explicabilidade, serão incluídas as seguintes visualizações:
-
-\begin{itemize}
-    \item \textbf{Figura 7.5 — Distribuição dos scores DBS por provedor:} histogramas sobrepostos (TotalPass, Gympass, Swile, Unimed e Psicologia Viva) evidenciando a concentração de scores altos.
-    \item \textbf{Figura 7.6 — Correlação entre scores centróide e k-NN:} diagrama de dispersão destacando a relação linear positiva entre as duas métricas.
-\end{itemize}
 
 \subsection{DBS por Provedor: Centróide e k-NN}
 
@@ -322,7 +310,11 @@ Em conjunto, os resultados do DBS reforçam a robustez e estabilidade da metodol
 
 \section{Ranking Final e Ajuste de Pesos}
 
-Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{,}2$), obteve-se o ranking final de aderência ao ICP. A Tabela~\ref{tab:7_6_ranking_all} apresenta, para cada provedor, as dez empresas mais alinhadas (\textit{Top 10}) e as cinco menos alinhadas (\textit{Bottom 5}). Essa visualização permite comparar a coerência do modelo entre diferentes bases, evidenciando padrões comuns entre os ICPs.
+Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{,}2$), obteve-se o ranking final de aderência ao ICP. As Tabelas abaixo apresentam, para cada provedor, as dez empresas mais alinhadas (\textit{Top 10}) e as cinco menos alinhadas (\textit{Bottom 5}). Essa visualização permite comparar a coerência do modelo entre diferentes bases, evidenciando padrões comuns entre os ICPs.
+
+É importante destacar que, em todos os provedores, o primeiro item do \textit{Bottom 5} apresenta score igual a zero. Esse resultado não representa necessariamente uma empresa real com desempenho nulo, mas decorre de uma condição de referência no processo de normalização e escalonamento dos scores do modelo híbrido OCC--DBS. Durante a padronização final, os valores de distância ao centróide e à vizinhança $k$ mais próxima são reescalonados para o intervalo $[0,\,1]$, de modo que o menor valor observado na amostra (empresa mais distante da região de densidade do ICP) é mapeado para zero. Assim, a pontuação mínima não implica ausência total de similaridade, mas sim o limite inferior do espaço de aderência, correspondendo ao ponto mais afastado do conjunto de empresas consideradas “normais” pelo modelo OCC. 
+
+Em outras palavras, o score igual a zero atua como um \textit{ponto âncora} do ranqueamento, permitindo interpretar os demais valores de forma relativa — isto é, quanto mais próximo de um, maior a similaridade com o perfil ideal; quanto mais próximo de zero, maior o desvio em relação às características típicas do ICP. Esse comportamento reforça a consistência do processo de normalização, garantindo comparabilidade entre diferentes bases e assegurando que os extremos do ranqueamento representem, de fato, os limites estatísticos do modelo.
 
 
 % -------- GYMPASS ---------
@@ -358,15 +350,14 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     Empresa & Score \\
     \midrule
     Itaú Unibanco & 0,000 \\
-    Tata Consultancy Services & 0,187 \\
-    Ambev & 0,387 \\
-    Deloitte & 0,443 \\
-    Deloitte (2) & 0,443 \\
+    Tata Consultancy Services & 0,047 \\
+    Deloitte & 0,338 \\
+    Ambev & 0,385 \\
+    DHL & 0,079 \\
     \bottomrule
     \end{tabular}
     \end{minipage}
 \end{table}
-
 % -------- PSICOLOGIA VIVA ---------
 \begin{table}[p]
     \centering
@@ -379,16 +370,16 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Psicologia Viva & 0,999 \\
-    Viva Saúde & 0,998 \\
-    PsiCare & 0,997 \\
-    MindCare & 0,995 \\
-    BemEstar Digital & 0,993 \\
-    Terapia Online & 0,992 \\
-    Saúde Mental & 0,991 \\
-    Clínica Viva & 0,990 \\
-    Saúde Integral & 0,989 \\
-    Vida Plena & 0,988 \\
+    Barbosa Supermercados & 0,9996 \\
+    Avenida & 0,9995 \\
+    SRM ASSET & 0,9988 \\
+    Escola Villare & 0,9988 \\
+    Docket & 0,9981 \\
+    Procfit & 0,9980 \\
+    ROIT & 0,9980 \\
+    Empório Alex & 0,9978 \\
+    Laboratório Fantasma & 0,9977 \\
+    Rock Encantech & 0,9965 \\
     \bottomrule
     \end{tabular}
     \end{minipage}\hfill
@@ -399,21 +390,20 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Hospital Geral & 0,000 \\
-    Clínica Popular & 0,314 \\
-    Rede Saúde & 0,452 \\
-    Laboratório Central & 0,503 \\
-    Farmácia Viva & 0,612 \\
+    Banco Bradesco & 0,0000 \\
+    EY & 0,093 \\
+    Atento & 0,836 \\
+    Atacadão & 0,842 \\
+    Localiza\&Co & 0,858 \\
     \bottomrule
     \end{tabular}
     \end{minipage}
 \end{table}
-
 % -------- SWILE ---------
 \begin{table}[p]
     \centering
     \caption{Ranking final de empresas para o provedor Swile: Top 10 e Bottom 5.}
-    \label{tab:7_6_ranking_swile}
+    \label{tab:7_7_ranking_swile}
     \begin{minipage}{0.48\textwidth}
     \centering
     \textbf{Top 10 (ICP)}\\
@@ -421,16 +411,16 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Swile Tech & 0,999 \\
-    Carteira Digital & 0,998 \\
-    Benefícios SA & 0,997 \\
-    Soluções Corporativas & 0,996 \\
-    Gestão de Pessoas & 0,995 \\
-    Plataforma Swile & 0,994 \\
-    Serviços Integrados & 0,993 \\
-    Tecnologia Brasil & 0,992 \\
-    Soluções Flexíveis & 0,991 \\
-    Inovação & 0,990 \\
+    BYX & 0,9987 \\
+    Certsys & 0,9987 \\
+    Tax.Co & 0,9987 \\
+    Sem nome & 0,9987 \\
+    Vai Voando & 0,9986 \\
+    Better Now & 0,9985 \\
+    Fluencypass & 0,9985 \\
+    Construmarket & 0,9985 \\
+    NaN & 0,9984 \\
+    Empiricus & 0,9983 \\
     \bottomrule
     \end{tabular}
     \end{minipage}\hfill
@@ -441,18 +431,17 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Indústria Pesada & 0,000 \\
-    Comércio Varejista & 0,361 \\
-    Construção Civil & 0,472 \\
-    Agroindústria & 0,529 \\
-    Transporte & 0,615 \\
+    Brisanet Telecomunicações & 0,0000 \\
+    Reply & 0,208 \\
+    Mitre Realty & 0,345 \\
+    Softtek & 0,359 \\
+    Egis & 0,398 \\
     \bottomrule
     \end{tabular}
     \end{minipage}
 \end{table}
-
 % -------- TOTALPASS ---------
-\begin{table}[p]
+\begin{table}[!htbp]
     \centering
     \caption{Ranking final de empresas para o provedor TotalPass: Top 10 e Bottom 5.}
     \label{tab:7_6_ranking_totalpass}
@@ -468,7 +457,7 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     Sou SERAC & 0,999 \\
     minu.co & 0,999 \\
     Simpar & 0,999 \\
-    Liz Educacional & 0,998 \\
+    Rede Ápice & 0,998 \\
     JHSF Participações & 0,993 \\
     Ilia Digital & 0,991 \\
     Intelipost & 0,991 \\
@@ -492,12 +481,11 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \end{tabular}
     \end{minipage}
 \end{table}
-
 % -------- UNIMED ---------
-\begin{table}[p]
+\begin{table}[!htbp]
     \centering
     \caption{Ranking final de empresas para o provedor Unimed: Top 10 e Bottom 5.}
-    \label{tab:7_6_ranking_unimed}
+    \label{tab:7_5_ranking_unimed}
     \begin{minipage}{0.48\textwidth}
     \centering
     \textbf{Top 10 (ICP)}\\
@@ -505,16 +493,16 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Unimed Central & 0,999 \\
-    Saúde Coletiva & 0,998 \\
-    Cooperativa Médica & 0,997 \\
-    Assistência Saúde & 0,995 \\
-    Clínica Unimed & 0,993 \\
-    Rede Médica & 0,992 \\
-    Serviços Unimed & 0,991 \\
-    Unimed Regional & 0,990 \\
-    Saúde Integral & 0,989 \\
-    Medicina Preventiva & 0,988 \\
+    MaisTODOS & 0,9992 \\
+    Internet Way\textregistered & 0,9992 \\
+    ENELO & 0,9990 \\
+    Basecol Mix & 0,9989 \\
+    Solinftec & 0,9988 \\
+    SGF Global & 0,9956 \\
+    Qive & 0,9952 \\
+    Cimoagro & 0,9950 \\
+    Shift & 0,9950 \\
+    Corebiz & 0,9949 \\
     \bottomrule
     \end{tabular}
     \end{minipage}\hfill
@@ -525,15 +513,17 @@ Após o cálculo dos scores DBS ponderados ($w_{centróide}=0{,}8$ e $w_{kNN}=0{
     \toprule
     Empresa & Score \\
     \midrule
-    Hospital Privado & 0,000 \\
-    Laboratório Unimed & 0,345 \\
-    Clínica Popular & 0,455 \\
-    Farmácia Unimed & 0,512 \\
-    Rede Hospitalar & 0,623 \\
+    Atacadão & 0,0000 \\
+    Continental & 0,212 \\
+    Sherwin-Williams & 0,593 \\
+    Riachuelo & 0,689 \\
+    thyssenkrupp & 0,690 \\
     \bottomrule
     \end{tabular}
     \end{minipage}
 \end{table}
+
+\FloatBarrier % <- garante que as tabelas sejam posicionadas antes do próximo texto
 
 Os resultados indicam padrão consistente entre as bases: as empresas com maior aderência pertencem majoritariamente aos setores de tecnologia, serviços corporativos, saúde e holdings de gestão, enquanto as menos aderentes são conglomerados industriais, financeiros ou de grande varejo. A manutenção de uma estrutura de ranking similar entre bases distintas reforça a estabilidade do modelo híbrido proposto.
 

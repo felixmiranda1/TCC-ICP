@@ -21,12 +21,12 @@
 \usepackage{hyperref}
 \usepackage{xurl}
 \usepackage{amssymb}
+\usepackage{placeins}
 % --- Matemática (necessário para \text, \operatorname, \lVert, etc.)
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{float}
-
 \usepackage{listings}
 \usepackage{xcolor}
 
@@ -117,34 +117,25 @@ Aprovada em (dia) de (m\^es) de (ano) %%Preencher com a data
 \end{folhadeaprovacao}
 \cleardoublepage 
 
-
-%% Dedicatoria. OPCIONAL. N\~ao deve haver t\'itulo. Colocar ``%'' no in\'icio de cada das 3 linhas abaixo, caso n\~ao queira. 
- \begin{dedicatoria} 
-  Dedico este trabalho ... 
- \end{dedicatoria}
-
  
 %% Agradecimentos. OPCIONAL. Caso seja bolsista, inserir os devidos agradecimentos.
 \begin{agradecimentos}
-Agrade\c{c}o aos ... 
+
+Agradeço, em primeiro lugar, ao meu pai, \textbf{Félix de Valois}, o maior investidor e incentivador desta jornada. Foi ele quem acreditou em mim desde o primeiro momento, quem cobrou, orientou e fomentou cada etapa da minha formação. Todo este percurso só foi possível graças ao seu esforço, confiança e presença constante. Principalmente por ter me feito seguir caminhos que eu só compreenderia posteriomente na vida, e que hoje sou eternamente grato a ele.
+
+À minha mãe, \textbf{Izabel Maria}, por nunca ter medido esforços para que eu tivesse tudo de que precisasse. É somente por causa dela que cheguei até a Universidade Federal de Juiz de Fora, e tudo o que ela enfrentou para me ver aqui é motivo de profunda admiração e gratidão.  
+
+À minha irmã, \textbf{Isabella}, pelo carinho e pela torcida incondicional.  
+
+Ao meu tio, \textbf{João Filho}, que me acompanhou no início da minha trajetória e me deu o apoio necessário para dar os primeiros passos no começo da trajetória acadêmica.  
+
+À minha namorada, \textbf{Gabriella}, um verdadeiro farol de luz na minha vida. Obrigado por sempre me colocar para cima, acreditar em mim e ser uma mulher incrível neste fechamento de ciclo. Sua presença foi essencial para que eu seguisse firme até o fim.  
+
+Estendo meus agradecimentos também a três professores que marcaram profundamente minha formação. Ao \textbf{Professor Leonardo Golliat} e à \textbf{Professora Priscila Capriles}, pela oportunidade transformadora de atuar no projeto da ArcelorMittal, onde pude construir as bases do profissional de dados que sou hoje. E à \textbf{Professora Ana Sophia Cavalcanti}, por compartilhar comigo tantas conquistas, pela parceria e incentivo constante ao longo da nossa jornada na capitania da equipe Rinobot.  
+
+A todos vocês, meu sincero agradecimento por acreditarem em mim, mesmo quando eu duvidei. Este trabalho é, acima de tudo, o reflexo de tudo que aprendi e vivi ao lado de vocês.
+
 \end{agradecimentos}
-
-
-%% Ep\'igrafe. OPCIONAL. Com os dados do autor. A obra usada na ep\'igrafe deve constar nas refer\^encias. 
-
-% Quando at\'e 3 linhas: \'e obrigat\'orio o uso de aspas duplas.
-
-%\begin{epigrafemenos} %%Ep\'igrafe com 3 ou menos linhas
-%``Mas para que o produto de uma pesquisa científica possa ser publicado não basta que ele apresente um conteúdo de qualidade, também é exigida qualidade de forma.'' (MAR\c{C}AL JUNIOR, 2013, p. 19-20).
-%\end{epigrafemenos}
-
-%%Quando com mais de 3 linhas. 
-
-\begin{epigrafemais} %%Ep\'igrafe com mais de 3 linhas 
-	Elemento opcional, em que o autor apresenta uma cita\c{c}\~ao, seguida de indica\c{c}\~ao de autoria, relacionada com a                       
-  mat\'eria tratada no corpo do trabalho. (Associa\c{c}\~ao Brasileira de Normas T\'ecnicas, 2011, p. 2).
-\end{epigrafemais}
-
 
 %% RESUMOS
 
@@ -169,12 +160,6 @@ Agrade\c{c}o aos ...
   \end{otherlanguage*}
 \end{resumo}
 
-%% Seguindo o mesmo modelo acima, pode-se inserir resumos em outras l\'inguas. 
-
-
-
-%% Lista de ilustra\c{c}\~oes. OPCIONAL. Sao consideradas ilustra\c{c}\~oes: desenhos, esquemas, fluxogramas, figuras, fotografias, gr\'aficos, mapas, organogramas, plantas, quadros, entre outros. Tabelas n\~ao s\~ao consideradas ilustra\c{c}\~oes. A ordem da lista deve obrigatoriamente ser a mesma ordem em que as ilustra\c{c}\~oes aparecem no texto. Quando o t\'itulo ocupar mais de uma linha, a segunda linha deve estar exatamente abaixo da primeira.  
-
 \pdfbookmark[0]{\listfigurename}{lof}
 
 %Caso as ilustra\c{c}~oes do trabalho sejam todas do mesmo tipo (por exemplo, todas do tipo organograma), coloque % no in\'icio das duas linhas abaixo. 
@@ -193,23 +178,29 @@ Agrade\c{c}o aos ...
 
 \cleardoublepage
 
-
 %% Lista de abreviaturas e siglas. OPCIONAL. Nao deve haver sinal grafico entre as siglas e abreviaturas e o significado. 
 
-\begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE
+\begin{siglas}
+
   \item[ABNT] Associa\c{c}\~ao Brasileira de Normas T\'ecnicas
-  \item[Fil.] Filosofia 
-  \item[IBGE] Instituto Brasileiro de Geografia e Estat\'istica 
-  \item[INMETRO] Instituto Nacional de Metrologia, Normaliza\c{c}\~ao e Qualidade Industrial
-  \end{siglas}
+  \item[API] Application Programming Interface (Interface de Programa\c{c}\~ao de Aplica\c{c}\~oes)
+  \item[B2B] Business-to-Business (Neg\'ocios entre Empresas)
+  \item[CAC] Custo de Aquisi\c{c}\~ao de Cliente
+  \item[CNAE] Classifica\c{c}\~ao Nacional de Atividades Econ\^omicas
+  \item[CNPJ] Cadastro Nacional da Pessoa Jur\'idica
+  \item[CRM] Customer Relationship Management (Gest\~ao de Relacionamento com o Cliente)
+  \item[DBS] Distance-Based Scoring
+  \item[IBGE] Instituto Brasileiro de Geografia e Estat\'istica
+  \item[ICP] Ideal Customer Profile (Perfil Ideal de Cliente)
+  \item[IF] Isolation Forest
+  \item[LGPD] Lei Geral de Prote\c{c}\~ao de Dados
+  \item[LTV] Lifetime Value (Valor do Ciclo de Vida do Cliente)
+  \item[OCC] One-Class Classification
+  \item[OHE] One-Hot Encoding
+  \item[TI] Tecnologia da Informa\c{c}\~ao
+  \item[UF] Unidade Federativa
 
-%% Lista de s\'imbolos. OPCIONAL. Nao deve haver sinal grafico entre o simbolo e o seu significado.
-
-\begin{simbolos} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE
-  \item[$ \forall $] Para todo
-  \item[$ \in $] Pertence
- \end{simbolos}
-
+\end{siglas}
  
 %% Sum\'ario
 
@@ -221,8 +212,6 @@ Agrade\c{c}o aos ...
 
 %% ELEMENTOS TEXTUAIS
 \textual
-
-
 
 \include{capitulos/Introdução}
 
@@ -238,337 +227,93 @@ Agrade\c{c}o aos ...
 
 \include{capitulos/Conclusão}
 
-%As instru\c{c}\~oes aqui contidas buscam ajudar a direcionar e orientar quanto \`a padroniza\c{c}\~ao das monografias, dissertac\~oes e teses na UFJF. 
-%Ser\~ao apresentados alguns exemplos de refer\^encias apenas como modelo de documento. Detalhes completos sobre como apresentar as refer\^encias se 
-%encontram na norma ABNT NBR 6023:2018. Mais informa\c{c}\~oes sobre as normas de padroniza\c{c}\~ao s\~ao encontradas diretamente nas bibliotecas da UFJF e em 
-%http://www.ufjf.br/biblioteca/servicos/normalizacao-2
-
-
-%No sistema num\'erico para cita\c{c}\~oes de refer\^encias, as refer\^encias devem ser numeradas de acordo com a ordem sequencial em que aparecem no texto 
-%pela primeira vez e colocadas em lista nesta mesma ordem. (ABNT, 2018).
-
-%O sistema num\'erico n\~ao deve ser utilizado quando h\'a notas de rodap\'e. (ABNT, 2002).  
-\chapter{NOME DA SE\c{C}\~{A}O} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
-
-Ap\'os a introdu\c{c}\~ao, segue-se o elemento desenvolvimento. Este elemento obrigat\'orio \'e que ir\'a desenvolver a ideia principal do trabalho. 
-\'E o elemento mais longo, podendo ser dividido em v\'arias se\c{c}\~oes %(prim\'arias, secund\'arias, etc.) 
-e subse\c{c}\~oes que devem conter texto. 
-
-Apresentamos nesta p\'agina um exemplo de nota \footnote{As notas devem ser digitadas ou datilografadas dentro das margens, ficando separadas do texto
-por um espa\c{c}o simples entre as linhas e por filete de 5 cm a partir da margem esquerda e em fonte menor (um ponto) do corpo do texto. (Associa\c{c}\~ao
-Brasileira de Normas T\'ecnicas, 2011, p. 10).}.
-
-\section{SE\c{C}\~AO SECUND\'ARIA} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui.
-
-Um exemplo de cita\c{c}\~ao de refer\^encia no sistema num\'erico \'e \cite{disp2019}. Outros três exemplos s\~ao: \cite{Bauman99}, \cite{vet18} e 
-\cite{Aguiar2009}.
-
-
-%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%
-%Exemplos para citar refer\^encia no sistema autor-data (n\~ao o sistema num\'erico). Caso queira usar, selecionar \usepackage{natbib}  antes de \begin{document} e colocar % antes de \usepackage[round, numbers]{natbib}.
-
-%Conforme \citep[p. 4]{t1}, isto ... 
-%% (Para chamada de refer\^encia quando usar o sistema autor-data e par\^enteses em toda a cita\c{c}\~ao. %[p. 4] \'e opcional.)
-
-%Conforme \citet*[p. 4]{t1}, isto ... 
-%% (Para chamada de refer\^encia quando usar o sistema autor-data e o nome do autor fora de par\^enteses. %[p. 4] \'e opcional.)
-
-%Conforme \citep{Bauman99}, ...
-
-%De acordo com \citet*{disp2019}, ...
-%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%EXEMPLOS DE ILUSTRA\c{C}\~OES DE TIPOS DIFERENTES. PARA EXEMPLOS DO MESMO TIPO, VEJA A DICA NO FINAL DESTE ARQUIVO.
-
-
-
-Abaixo, s\~ao apresentados exemplos de ilustra\c{c}\~oes.
-
-% Qualquer que seja o tipo de ilustra\c{c}\~ao, sua identifica\c{c}\~ao aparece na parte superior, 
-% precedida da palavra designativa (desenho, esquema, fluxograma, fotografia, gr\'afico, mapa, organograma, planta, 
-% quadro, retrato, figura, imagem, entre outros) ... A ilustra\c{c}\~ao deve ser citada no texto ...(ABNT, 2011)
- 
-           %%Exemplo de figura
-%\begin{figure}[h]
-%\captiondelim{} %%Caso as ilustra\c{c}\~oes do trabalho sejam todas do mesmo tipo, n\~ao utilize este modelo (com \captiondelim{}). Utilize o do final deste arquivo.
-%\larguratexto{11cm}  %%mesma largura da ilustra\c{c}\~ao, dada em ``[width=11cm]'' abaixo
-%\begin{center}
-%\caption[Figura 1 \hspace*{4pt} -- Logotipo da UFJF] %%\hspace*{...} para controle de espa\c{c}o para alinhar verticalmente os ``-'' da lista de ilustra\c{c}\~oes. 
-%%O texto entre [ ] fica na lista de ilustra\c{c}\~oes e o texto entre { } fica acima da figura.
-%{Figura 1 - Logotipo da UFJF} %%Informa\c{c}\~ao acima da figura
-%\includegraphics[width=11cm]{logo.jpg}
-%\fonte{Universidade Federal de Juiz de Fora (2012).} 
-%\nota{Ilustração incompleta.} %%Indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao do pr\'oprio autor).
-%\end{center}
-%\end{figure}
-
-
-%%Caso a ilustracao seja elaborada pelo autor, usar ``\fonte{Elaborado pelo autor. (ano).}'' substituindo, se necessario, autor por autora ou Elaborado por Elaborada.
-
-           %%Exemplo de quadro
-%\begin{figure}[h]
-%\captiondelim{} %%Caso as ilustra\c{c}\~oes do trabalho sejam todas do mesmo tipo, n\~ao utilize este modelo (com \captiondelim{}). Utilize o do final deste arquivo.
-%\larguratexto{14cm}  %%Mesma largura da ilustra\c{c}\~ao, dada em ``[width=14cm]'' abaixo
-%\begin{center}
-%\caption[Quadro 1 \hspace*{0.1pt} -- Bibliotecas da UFJF %%\hspace*{...} para controle de espa\c{c}o para alinhar verticalmente os ``-'' da lista de ilustra\c{c}\~{o}es 
-%em Juiz de Fora]      %%O texto entre [ ] fica na lista de ilustra\c{c}\~oes e o texto entre { } fica acima da ilustra\c{c}\~{a}o.
-%{Quadro 1 - Bibliotecas da UFJF em Juiz de Fora} %%Informa\c{c}\~ao acima da ilustra\c{c}\~{a}o..
-%\includegraphics[width=14cm]{bibliotecas.png}
-%\fonte{Universidade Federal de Juiz de Fora (2012).} %%Indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao do pr\'oprio autor).
-%\end{center}
-%\end{figure}
-
-%Quadro possui dados diversos, tabela possui obrigatoriamente dados numericos.
-
-           %%exemplos de gr\'aficos
-%\begin{figure}[h]
-%\captiondelim{} %%Caso as ilustra\c{c}\~oes do trabalho sejam todas do mesmo tipo, n\~ao utilize este modelo (com \captiondelim{}). Utilize o do final deste arquivo.
-%\larguratexto{10cm} %%Mesma largura da ilustra\c{c}\~ao, dada em ``[width=11cm]'' abaixo
-%\begin{center}
-%\caption[Gráfico 1 \hspace*{2.5pt} -- \'Indice de qualifica\c{c}\~{a}o do corpo docente da UFJF %%\hspace*{...} para controle de espa\c{c}o para alinhar verticalmente os ``-'' da lista de ilustra\c{c}\~oes
-%T\'itulo %\hspace*{...} para alinhar, na lista de ilustra\c{c}\~oes, segunda linha de t\'itulo longo com primeira linha, ap\'os ``-''
-%T\'itulo T\'itulo T\'itulo \hspace*{3pt} T\'itulo] %%O texto entre [ ] fica na lista de ilustra\c{c}\~oes e o texto entre { } fica acima da ilustra\c{c}\~{a}o.
-%{Gráfico 1 - \'Indice de qualifica\c{c}\~{a}o do corpo docente da UFJF T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo} %%Informa\c{c}\~ao acima da ilustra\c{c}\~{a}o.
-%\includegraphics[width=10cm]{qualific.png} 
-%\fonte{Universidade Federal de Juiz de Fora (2012).} %%Indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao do pr\'oprio autor).
-%\end{center}
-%\end{figure}           
-           
-%\begin{figure}[h!]
-%\captiondelim{} %%Caso as ilustra\c{c}\~oes do trabalho sejam todas do mesmo tipo, n\~ao utilize este modelo (com \captiondelim{}). Utilize o do final deste arquivo.
-%\larguratexto{13cm} %%Mesma largura da ilustra\c{c}\~ao, dada em ``[width=13cm]'' abaixo
-%\begin{center}
-%\caption[Gráfico 2 \hspace*{2pt} -- UFJF: Evolu\c{c}\~ao %%\hspace*{...} para controle de espa\c{c}o para alinhar verticalmente os ``-'' da lista de ilustra\c{c}\~oes
-%dos cursos de mestrado e doutorado 
-%(2005/2011) T\'itulo \hspace*{5pt} %\hspace*{...} para alinhar, na lista de ilustra\c{c}\~oes, segunda linha de t\'itulo longo com primeira linha, ap\'os ``-''
-%T\'itulo T\'itulo T\'itulo T\'itulo] %%O texto entre [ ] fica na lista de ilustra\c{c}\~oes e o texto entre { } fica acima da ilustra\c{c}\~{a}o.
-%{Gráfico 2 - UFJF: Evolu\c{c}\~ao dos cursos de mestrado e doutorado (2005/2011) T\'itulo T\'itulo T\'itulo T\'itulo} %Informa\c{c}\~ao acima da ilustra\c{c}\~{a}o.
-%\includegraphics[width=13cm]{mest_dout.png} 
-%\fonte{Universidade Federal de Juiz de Fora (2012).} %Indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao do pr\'oprio autor).
-%\end{center}
-%\end{figure}
-
-
-\subsection{\textbf{Se\c{c}\~ao terci\'aria}} %% O t\'itulo da subse\c{c}\~ao vem em negrito e caixa baixa
-
-Abaixo, s\~ao apresentados exemplos de tabela. 
-
-%%Exemplo de tabela. Tabelas nao possuem margem lateral. Tabelas apresentam obrigatoriamente dados numericos.
-
-%\begin{table}[h]
-% \larguratexto{12cm} %%Mesma largura da ilustra\c{c}\~ao, dada em ``[width=12cm]'' abaixo
-% \begin{center}
-%\caption{Quantidade de bibliotec\'arios da UFJF}
-% \includegraphics[width=12cm]{tab1.png}
-% \fonte{Elaborada pelo autor (2019).} 
-%\end{center}
-%\end{table}
-
-%\begin{table}[h]
-%\larguratexto{10cm}  %Mesma largura da ilustra\c{c}\~ao, dada em ``[width=10cm]'' abaixo
-%\begin{center}
-%\caption{Composi\c{c}\~ao dos Recursos Humanos do HU/UFJF T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo T\'itulo}
-%\includegraphics[width=10cm]{rec.png}
-%\fonte{Universidade Federal de Juiz de Fora (2012).} 
-%\end{center}
-%\end{table}
-
-%%Caso a tabela seja elaborada pelo autor, usar \fonte{Elaborada pelo autor. (ano).} substituindo, se necessario, autor por autora.
-
-\subsubsection{\textit{Se\c{c}\~ao quatern\'aria}} %% O t\'itulo da subsubse\c{c}\~ao vem em it\'alico e caixa baixa 
-
-Se houver se\c{c}\~ao quatern\'aria, incluir texto ...
-
-\subsubsubsection{Se\c{c}\~ao quin\'aria}  %% O t\'itulo desta vem em caixa baixa
-
-Se houver se\c{c}\~ao quin\'aria, incluir texto ...
-
-
-\chapter{CITA\c{C}\~{O}ES} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui.
-
-As citações são informa\c{c}\~{o}es extra\'idas de fonte consultada pelo autor da obra em desenvolvimento. Podem ser diretas, indiretas ou citação de citação. Para exemplos, consultar o apêncice D no Manual de Normalização de Trabalhos Acadêmicos disponível no \textit{link} abaixo: \\ 
-\url{https://www2.ufjf.br/biblioteca/servicos/#normalizacao-bibliografica}
-
-\section{SISTEMA AUTOR-DATA} %%Nesta linha, dentro de { }, digita-se o nome da se\c{c}\~ao secund\'aria em CAIXA ALTA, como apresentado aqui.
-
-Para o sistema autor-data, considere: 
-\begin{itemize}
- \item[a)] \textbf{citação direta} \'e caracterizada pela transcri\c{c}\~{a}o textual da parte consultada. Se com at\'e tr\^es linhas, deve estar entre aspas duplas, exatamente como na obra consultada. Se com mais de tr\^es linhas, recomenda-se o recuo de 4 cm da margem esquerda, com letra menor (um ponto), espaçamento simples, sem aspas. Sendo a chamada: (Autor, data e p\'agina) ou na senten\c{c}a Autor (data, p\'agina).
- \item[b)] \textbf{cita\c{c}\~{a}o indireta} \'e aquela em que o texto foi baseado na(s) obra(s) consultada(s). Em caso de mais de tr\^es fontes consultadas, a cita\c{c}\~{a}o deve seguir a ordem alfab\'etica. 
- \item[c)] \textbf{A cita\c{c}\~{a}o de cita\c{c}\~{a}o} \'e baseada em um texto em que n\~ao houve acesso ao original. 
-\end{itemize} 
-
-
- 
-\section{SISTEMA NUM\'ERICO} %%Nesta linha, dentro de { }, digita-se o nome da se\c{c}\~ao secund\'aria em CAIXA ALTA, como apresentado aqui.
-
-\textbf{Para o sistema num\'erico:} 
-
-A indica\c{c}\~{a}o da fonte \'e feita por uma numera\c{c}\~{a}o \'unica e consecutiva respeitando a ordem que aparece no texto. Deve-se usar algarismos ar\'abicos remetendo \`a lista de refer\^encias. A indica\c{c}\~{a}o da numera\c{c}\~{a}o \'e apresentada entre par\^enteses no corpo do texto ou como expoente. N\~ao usar colchetes. O autor pode aparecer ou n\~ao no texto. Para separar diversos autores, utiliza-se v\'irgula. N\~{a}o utilizar nota de rodap\'{e} quando utilizar o sistema num\'{e}rico.
-Observe os exemplos no Manual de Normaliza\c{c}\~{a}o de Trabalhos Acad\^emicos dispon\'ivel no \textit{link} abaixo: \\
-\url{https://www2.ufjf.br/biblioteca/servicos/#normalizacao-bibliografica}
-
-Em citação direta, o número da página (precedido por ``p.'') ou localizador, se houver, deve ser indicado após o número da fonte no texto, separado por vírgula e um espaço. O número do localizador, em publicações eletrônicas, deve ser precedido por sua respectiva abreviatura (local.). Exemplos: (1, p. 30), (7, local. 72), (4, Mt 6, 3-6, p. 1730), (6, v.3, p.583), (5, cap. V, art. 49, inc.I), (2, 9 min 41 s).
-
-\section{NOTAS} %%Nesta linha, dentro de { }, digita-se o nome da se\c{c}\~ao secund\'aria em CAIXA ALTA, como apresentado aqui.
-
-Notas de rodap\'e s\~ao observa\c{c}\~{o}es e/ou aditamentos que o autor precisa incluir no texto \footnote[2]{As notas devem ser alinhadas sendo que na segunda linha da mesma nota, a primeira letra deve estar abaixo da primeira letra da primeira palavra da linha superior, destacando assim o expoente.}. Para a numera\c{c}\~{a}o das notas deve-se utilizar algarismos ar\'abicos. As notas devem ser digitadas dentro das margens, ficando separadas do texto por um espa\c{c}o simples entre as linhas e por filete de 5 cm a partir da margem esquerda e em fonte menor (um ponto) do corpo do texto. As notas de rodap\'e s\'o podem ser usadas no sistema autor-data. Observe os exemplos no Manual de Normaliza\c{c}\~{a}o de Trabalhos Acad\^emicos dispon\'ivel no \textit{link} abaixo: \\
-\url{https://www2.ufjf.br/biblioteca/servicos/#normalizacao-bibliografica}
-
-%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%
-%%EXEMPLO DE AL\'INEAS
-
-%\begin{alineas}
-% \item texto;    
-% \item texto; 
-% \item texto.
-%\end{alineas}
-
-%%Existe tamb\'em ``\begin{subalineas} \item ... \end{subalineas}'' que em cada linha fica sem recuo e coloca - no lugar das letras do alfabeto.  
-%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%
-
-%Todo trabalho deve conter apenas um elemento conclusivo.
-
-%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%
-%% ELEMENTOS POS-TEXTUAIS
-
-\postextual 
-
-
-%% Fizemos a op\c{c}\~ao por colocar as refer\^encias diretamente no arquivo ``.tex'' por ser mais simples para quem se inicia na escrita de trabalhos acad\^emicos.
-%% Referencias. LISTAR EXATAMENTE AS CITADAS NO TRABALHO.
-
-%No elemento REFER\^ENCIAS, todas ``as refer\^encias devem ser ... alinhadas \`a margem esquerda do texto ... (ABNT, 2018). 
-
-
 \begin{thebibliography}{99}
-
-
-%%O elemento t\'itulo de cada refer\^encia ser\'a destacado pelo uso do recurso tipogr\'afico negrito (\textbf) ou do it\'alico (\textit), sendo que o 
-%recurso tipogr\'afico utilizado deve ser uniforme em todas as refer\^encias do trabalho. Recomendamos o uso do negrito.
-
-%%%1) Exemplos de refer\^encias no sistema num\'erico
-
-%%exemplo de parte de obra em meio eletr\^onico
-% \bibitem{disp2019} S\~AO PAULO (Estado). Secretaria do Meio Ambiente. Tratados e organiza\c{c}\~oes ambientais em mat\'eria de meio ambiente. \textit{In}: S\~AO
-% PAULO (Estado). Secretaria do Meio Ambiente. \textbf{Entendendo o meio ambiente}. S\~ao Paulo: Secretaria do Meio Ambiente, 1999. v. 1. Disponível em: 
-% http://www.bdt.org.br/sma/entendendo/atual.htm. Acesso em: 8 mar. 1999.
-
 
 \bibitem[Seliya et al.(2021)]{Seliya2021} SELIYA, Naresh; KUMAR, Vivek; KANCHAN, Ankit. 
 \textbf{A review of one-class classification: Applications and challenges}. 
-Applied Intelligence, v. 51, n. 2, p. 1-23, 2021. 
-DOI: https://doi.org/10.1007/s10489-020-01838-3.
+Applied Intelligence, v. 51, n. 2, p. 1–23, 2021. 
+DOI: \url{https://doi.org/10.1007/s10489-020-01838-3}.
 
 \bibitem[Wu et al.(2023)]{Wu2023} WU, X.; ZHANG, Y.; LI, H. 
 \textbf{A comprehensive survey on lead scoring models in B2B marketing}. 
 Journal of Business Research, v. 160, p. 113–128, 2023. 
-DOI: https://doi.org/10.1016/j.jbusres.2023.113128.
+DOI: \url{https://doi.org/10.1016/j.jbusres.2023.113128}.
 
 \bibitem[Nygård(2020)]{Nygard2020} NYGÅRD, Magnus. 
 \textbf{Automating lead scoring with machine learning: A case study}. 
-Master’s Thesis — Norwegian University of Science and Technology, Trondheim, 2020. 
+Master’s Thesis — Norwegian University of Science and Technology, Trondheim, 2020.
 
 \bibitem[Qian et al.(2019)]{Qian2019} QIAN, Kun; ZHOU, Li; WANG, Rui. 
 \textbf{Distance-based ranking models for customer prioritization}. 
 Expert Systems with Applications, v. 127, p. 144–156, 2019. 
-DOI: https://doi.org/10.1016/j.eswa.2019.02.038.
+DOI: \url{https://doi.org/10.1016/j.eswa.2019.02.038}.
 
 \bibitem[Mancisidor et al.(2018)]{Mancisidor2018} MANCISIDOR, Andrés; RIVERA, Antonio; GARCÍA, David. 
 \textbf{Customer segmentation using autoencoders and classification methods}. 
 Procedia Computer Science, v. 144, p. 51–59, 2018. 
-DOI: https://doi.org/10.1016/j.procs.2018.10.488.
+DOI: \url{https://doi.org/10.1016/j.procs.2018.10.488}.
 
 \bibitem[Golbayani, Florescu e Chatterjee(2020)]{Golbayani2020} GOLBAYANI, Parham; FLORESCU, Laura; CHATTERJEE, Samir. 
 \textbf{A comparative study of forecasting corporate credit ratings using Neural Networks, SVM, and Decision Trees}. 
 Expert Systems with Applications, v. 142, p. 112–124, 2020. 
-DOI: https://doi.org/10.1016/j.eswa.2020.112124.
+DOI: \url{https://doi.org/10.1016/j.eswa.2020.112124}.
 
-% %%exemplo de livro
-% \bibitem{Bauman99} BAUMAN, Zygmunt. \textbf{Globaliza\c{c}\~ao}: as consequ\^encias humanas. Rio de Janeiro: Jorge Zahar, 1999.
+% ---------- Referências complementares (citadas no texto) ----------
 
+\bibitem[Pono(2020)]{Pono2020} PONO. 
+\textbf{Ideal Customer Profile: How to define your perfect B2B customer}. 
+Pono Consulting, 2020. 
+Disponível em: \url{https://pono.io/blog/ideal-customer-profile}. 
+Acesso em: 5 nov. 2025.
 
-% %%exemplo de artigo de publica\c{c}\~ao peri\'odica
-% \bibitem{vet18} DOREA, R. D.; COSTA, J. N.; BATITA, J. M.; FERREIRA, M. M.; MENEZES, R. V.; SOUZA, T. S. Reticuloperitonite traum\'atica associada \`a esplenite 
-% e hepatite em bovino: relato de caso. \textbf{Veterin\'aria e Zootecnia}, S\~ao Paulo, v. 18, n. 4, p. 199-202, 2011. Supl. 3.
+\bibitem[Experian(2020)]{Experian2020} EXPERIAN. 
+\textbf{B2B data quality trends and best practices}. 
+Experian Global Data Report, 2020. 
+Disponível em: \url{https://www.experian.com/business}. 
+Acesso em: 5 nov. 2025.
 
-% %%exemplo de trabalho acad\^emico (tese, dissertac\{c}\~ao, etc.)
+\bibitem[Inflexion-Point(2020)]{Inflexion2020} INFLEXION-POINT STRATEGY PARTNERS. 
+\textbf{Understanding your ideal customer profile}. 
+Inflexion-Point White Paper, 2020. 
+Disponível em: \url{https://www.inflexion-point.com}. 
+Acesso em: 5 nov. 2025.
 
-% \bibitem{Aguiar2009} AGUIAR, Andr\'e Andrade de. \textbf{Avalia\c{c}\~ao da microbiota bucal em pacientes sob uso cr\^onico de penicilina e benzatina}. 2009. 
-% Tese (Doutorado em Cardiologia) - Faculdade de Medicina, Universidade de S\~ao Paulo, S\~ao Paulo, 2009.
+\bibitem[McKinsey(2020)]{McKinsey2020} McKINSEY \& COMPANY. 
+\textbf{Data-driven marketing and sales: Redefining customer engagement in B2B}. 
+McKinsey Insights, 2020. 
+Disponível em: \url{https://www.mckinsey.com}. 
+Acesso em: 5 nov. 2025.
 
-%%%2) Exemplos de refer\^encia no sistema autor-data. Para usar esse sistema (n\~ao o num\'erico), deve-se 
-%retirar % da linha %\usepackage{natbib} e colocar % antes de \usepackage[round, numbers]{natbib}, que est\~ao antes de \begin{document}
+\bibitem[TOPO(2020)]{TOPO2020} TOPO. 
+\textbf{The state of lead management and ICP definition}. 
+TOPO Research Report, 2020. 
+Disponível em: \url{https://www.topohq.com}. 
+Acesso em: 5 nov. 2025.
 
-%% \bibitem[AGUIAR(2009)Aguiar]{t1} AGUIAR, Andr\'e Andrade de. \textbf{Avalia\c{c}\~ao da microbiota bucal em pacientes sob uso cr\^onico de penicilina e benzatina}. 
-%2009. Tese (Doutorado em Cardiologia) - Faculdade de Medicina, Universidade de S\~ao Paulo, S\~ao Paulo, 2009.
+\bibitem[BRASIL(2018)]{Brasil2018} BRASIL. 
+\textbf{Lei nº 13.709, de 14 de agosto de 2018}. 
+Lei Geral de Proteção de Dados Pessoais (LGPD). 
+\textit{Diário Oficial da União}, Brasília, DF, 15 ago. 2018.
 
-%% \bibitem[BAUMAN(1999)Bauman]{Bauman99} BAUMAN, Zygmunt. \textbf{Globaliza\c{c}\~ao}: as consequ\^encias humanas. Rio de Janeiro: Jorge Zahar, 1999.
+\bibitem[IBGE(2020)]{IBGE2020} INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA (IBGE). 
+\textbf{Classificação Nacional de Atividades Econômicas – CNAE 2.3}. 
+Rio de Janeiro: IBGE, 2020. 
+Disponível em: \url{https://www.ibge.gov.br}. 
+Acesso em: 5 nov. 2025.
 
-%% \bibitem[S\~AO PAULO(2019)S\~ao Paulo]{disp2019} S\~AO PAULO (Estado). Secretaria do Meio Ambiente. Tratados e organiza\c{c}\~oes ambientais em mat\'eria de meio ambiente. \textit{In}: S\~AO
-%% PAULO (Estado). Secretaria do Meio Ambiente. \textbf{Entendendo o meio ambiente}. S\~ao Paulo: Secretaria do Meio Ambiente, 1999. v. 1. Disponível em: 
-%% http://www.bdt.org.br/sma/entendendo/atual.htm. Acesso em: 8 mar. 1999.
+\bibitem[ReceitaFederal(2020)]{Receita2020} RECEITA FEDERAL DO BRASIL. 
+\textbf{Cadastro Nacional da Pessoa Jurídica (CNPJ)}. 
+Brasília: Ministério da Fazenda, 2020. 
+Disponível em: \url{https://www.gov.br/receitafederal}. 
+Acesso em: 5 nov. 2025.
+
+\bibitem[LinkedIn(2025)]{LinkedIn2025} LINKEDIN CORPORATION. 
+\textbf{LinkedIn Company Data API}. 
+Disponível em: \url{https://developer.linkedin.com}. 
+Acesso em: 5 nov. 2025.
 
 \end{thebibliography}
 
-%% Apendices e Anexos nao devem ser subdivididos: A1, A2, etc.
 
-%% Apendices
-
-\begin{apendices}
-
-\chapter{\apendseq T\'itulo} 
-%%Digita-se o titulo do apendice mantendo-se, antes, o comando \apendseq, como indicado.
-
-Este elemento \'e opcional. Apresenta um texto ou documento elaborado pelo autor com o objetivo de complementar sua argumenta\c{c}\~ao, 
-sem preju\'izo da unidade nuclear do trabalho.
-
-\end{apendices}
-
-%% Anexos
-
-\begin{anexos}
-
-\chapter{\anexoseq T\'itulo} 
-%%Digita-se o titulo do anexo mantendo-se, antes, o comando \anexoseq, como indicado.
-
-Este elemento \'e opcional. Apresenta um texto ou documento \textbf{n\~ao} elaborado pelo autor com o objetivo de complementar ou comprovar sua 
-argumenta\c{c}\~ao. 
-
-  
-\end{anexos}
-
-
-%%% ---
 \end{document}
-
-%%%%EXEMPLO QUANDO SE TEM TODAS AS ILUSTRA\c{C}\~OES DO MESMO TIPO. POR EXEMPLO, ORGANOGRAMA.
-
-%No meio do texto acima:
-%1) coloque % antes de cada dos comandos \ilustvaria e \listilustvaria ;
-%2) acrescente os dois comandos abaixo 
-
-\tipoilust{Organograma} %Preencha com o tipo de sua ilustra\c{c}\~ao (somente caso todas sejam do mesmo tipo). Por exemplo, Organograma.
-\renewcommand{\listfigurename}{\textbf{LISTA DE ORGANOGRAMAS}} %Troque ORGANOGRAMAS por outra palavra conforme o tipo de sua ilustra\c{c}\~ao, se for \'unico.
-
-%3) retire % do in\'icio do comando 
-\listoffigures* %Use este comando quando todas as ilustra\c{c}\~oes s\~ao do mesmo tipo e caso queira inserir a lista delas.
-
-%Exemplo para se colocar a ilustrac\{c}\~ao neste caso, de tipo \'unico (por exemplo, Organograma) em todo o trabalho.
-
-\begin{figure}[h]
-\larguratexto{6cm}  %Mesma largura da ilustra\c{c}\~ao, dada em ``[width=6cm]'' abaixo
-\begin{center}
-\caption{Texto} %Substituir ``Texto'' pela informa\c{c}\~ao acima da ilustra\c{c}\~{a}o.
-\includegraphics[width=6cm]{arquivo.jpg}
-\fonte{Universidade Federal de Juiz de Fora (2012).} %%Indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao do pr\'oprio autor).
-\end{center}
-\end{figure}
 
