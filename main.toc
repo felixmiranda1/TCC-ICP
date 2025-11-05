@@ -1,0 +1,70 @@
+\changetocdepth {4}
+\babel@toc {brazil}{}\relax 
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}INTRODUÇÃO}{11}{chapter.12}%
+\contentsline {section}{\numberline {1.1}OBJETIVOS}{11}{section.13}%
+\contentsline {section}{\numberline {1.2}ORGANIZAÇÃO}{12}{section.14}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}FUNDAMENTAÇÃO TEÓRICA}{14}{chapter.15}%
+\contentsline {section}{\numberline {2.1}IDEAL CUSTOMER PROFILE (ICP) E MARKETING B2B}{14}{section.16}%
+\contentsline {section}{\numberline {2.2}DADOS FIRMOGRÁFICOS E FONTES DE DADOS CORPORATIVOS}{15}{section.17}%
+\contentsline {section}{\numberline {2.3}MODELOS DE MACHINE LEARNING NÃO SUPERVISIONADO APLICADOS À IDENTIFICAÇÃO DO ICP}{15}{section.18}%
+\contentsline {subsection}{\numberline {\textbf {{2.3}.1}}One-Class Classification (OCC) e Tratamento de Outliers}{16}{subsection.19}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.1.1}}\textit {Isolation Forest (IF)}}{17}{subsubsection.20}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.1.2}}\textit {Aplicação ao ICP e filtragem de outliers}}{17}{subsubsection.22}%
+\contentsline {subsection}{\numberline {\textbf {{2.3}.2}}\textbf {Distance-Based Scoring (DBS)}}{18}{subsection.23}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.2.1}}\textit {Métrica Euclidiana e centróide ICP}}{18}{subsubsection.24}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.2.2}}\textit {Proximidade local por $k$-vizinhos (entre inliers)}}{18}{subsubsection.28}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.2.3}}\textit {Considerações gerais}}{19}{subsubsection.31}%
+\contentsline {subsection}{\numberline {\textbf {{2.3}.3}}\textbf {Abordagem Híbrida OCC + DBS}}{19}{subsection.32}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.3.1}}\textit {Estrutura do fluxo híbrido}}{19}{subsubsection.33}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.3.2}}\textit {Vantagens da abordagem híbrida}}{19}{subsubsection.34}%
+\contentsline {subsubsection}{\numberline {\textit {{2.3}.3.3}}\textit {Considerações finais}}{20}{subsubsection.35}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}TRABALHOS RELACIONADOS}{21}{chapter.36}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}AQUISIÇÃO E TRATAMENTO DE DADOS}{23}{chapter.37}%
+\contentsline {section}{\numberline {4.1}VISÃO GERAL DA PIPELINE DE DADOS}{23}{section.38}%
+\contentsline {section}{\numberline {4.2}FONTES DE DADOS UTILIZADAS}{23}{section.43}%
+\contentsline {subsection}{\numberline {\textbf {{4.2}.1}}\textbf {CoreSignal API}}{23}{subsection.44}%
+\contentsline {subsection}{\numberline {\textbf {{4.2}.2}}\textbf {ReceitaWS}}{26}{subsection.89}%
+\contentsline {subsection}{\numberline {\textbf {{4.2}.3}}\textbf {LinkedIn}}{28}{subsection.95}%
+\contentsline {section}{\numberline {4.3}LIMPEZA E PREPARAÇÃO DA BASE}{29}{section.96}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}CONSTRUÇÃO DO MODELO COMPUTACIONAL}{30}{chapter.97}%
+\contentsline {section}{\numberline {5.1}VISÃO GERAL DO PIPELINE}{30}{section.98}%
+\contentsline {section}{\numberline {5.2}PRÉ-PROCESSAMENTO DOS DADOS}{30}{section.103}%
+\contentsline {subsection}{\numberline {\textbf {{5.2}.1}}Padronização e limpeza inicial}{30}{subsection.104}%
+\contentsline {subsection}{\numberline {\textbf {{5.2}.2}}Normalização da variável de localização}{31}{subsection.105}%
+\contentsline {subsection}{\numberline {\textbf {{5.2}.3}}Tratamento numérico e vetorização}{31}{subsection.106}%
+\contentsline {section}{\numberline {5.3}OCC: DETECÇÃO DE OUTLIERS}{31}{section.107}%
+\contentsline {section}{\numberline {5.4}CÁLCULO DE SIMILARIDADE (DBS)}{32}{section.108}%
+\contentsline {subsection}{\numberline {\textbf {{5.4}.1}}Distância ao centróide}{32}{subsection.109}%
+\contentsline {subsection}{\numberline {\textbf {{5.4}.2}}Distância média aos vizinhos mais próximos}{32}{subsection.110}%
+\contentsline {subsection}{\numberline {\textbf {{5.4}.3}}Síntese da etapa}{32}{subsection.111}%
+\contentsline {section}{\numberline {5.5}RANKING FINAL HÍBRIDO}{33}{section.112}%
+\contentsline {subsection}{\numberline {\textbf {{5.5}.1}}Combinação ponderada dos scores}{33}{subsection.113}%
+\contentsline {subsection}{\numberline {\textbf {{5.5}.2}}Tratamento de outliers e política de preenchimento}{33}{subsection.114}%
+\contentsline {subsection}{\numberline {\textbf {{5.5}.3}}Geração do ranking}{33}{subsection.115}%
+\contentsline {subsection}{\numberline {\textbf {{5.5}.4}}Resumo da etapa}{34}{subsection.116}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}RESULTADOS}{35}{chapter.117}%
+\contentsline {section}{\numberline {6.1}Visão Geral do Pré-Processamento das Bases}{35}{section.118}%
+\contentsline {section}{\numberline {6.2}Análise Exploratória das Bases}{35}{section.121}%
+\contentsline {subsection}{\numberline {\textbf {{6.2}.1}}Distribuição Geográfica}{35}{subsection.122}%
+\contentsline {subsection}{\numberline {\textbf {{6.2}.2}}Distribuição por Segmento}{36}{subsection.125}%
+\contentsline {subsection}{\numberline {\textbf {{6.2}.3}}Estatísticas Descritivas}{36}{subsection.126}%
+\contentsline {section}{\numberline {6.3}Filtro de Anomalias (OCC — Isolation Forest)}{37}{section.131}%
+\contentsline {section}{\numberline {6.4}Modelagem Distance-Based Scoring (DBS)}{41}{section.144}%
+\contentsline {subsection}{\numberline {\textbf {{6.4}.1}}Análise Interpretativa}{41}{subsection.147}%
+\contentsline {subsection}{\numberline {\textbf {{6.4}.2}}DBS por Provedor: Centróide e k-NN}{41}{subsection.148}%
+\contentsline {section}{\numberline {6.5}Ranking Final e Ajuste de Pesos}{47}{section.174}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {7}CONCLUSÃO}{50}{chapter.185}%
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{\bfseries REFER\^ENCIAS}{53}{chapter*.186}%
